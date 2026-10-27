@@ -243,61 +243,62 @@ export function HeroSection() {
               />
 
               {/* Inner Portrait Frame */}
-              <div className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-[1.6rem] border border-white/10 bg-gradient-to-b from-[#0b1938] via-[#071024] to-[#040917] p-6">
+              <div className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-[1.6rem] border border-white/10 bg-gradient-to-b from-[#0b1938] via-[#071024] to-[#040917] p-5 sm:p-6">
+                {/* Real Portrait Photo with Focused Framing & Blue-Tinted Vignette */}
+                <img
+                  src="/assets/profile/sheva.png"
+                  alt="Sheva Ramdhan — Information Systems Student at Universitas Andalas"
+                  className="pointer-events-none absolute inset-0 h-full w-full scale-[1.18] object-cover object-[50%_42%] brightness-[0.96] contrast-[1.06] saturate-[0.95] transition-transform duration-700 ease-out group-hover:scale-[1.23]"
+                />
+
+                {/* Top/Bottom/Edge Atmospheric Navy Vignette so UI Badges Pop */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,transparent_28%,rgba(5,12,29,0.58)_72%,rgba(4,9,23,0.92)_100%)]"
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#040917]/80 via-transparent to-[#040917]/92"
+                />
+
                 {/* Pointer-following spotlight inside portrait */}
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0 transition-opacity duration-300"
                   style={{
-                    background: `radial-gradient(320px circle at ${tilt.glowX}% ${tilt.glowY}%, rgba(56, 189, 248, 0.24), rgba(37, 99, 235, 0.08) 45%, transparent 80%)`,
+                    background: `radial-gradient(320px circle at ${tilt.glowX}% ${tilt.glowY}%, rgba(56, 189, 248, 0.22), rgba(37, 99, 235, 0.08) 45%, transparent 80%)`,
                   }}
                 />
 
                 {/* Top Card Header */}
                 <div className="relative z-10 flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/25 bg-blue-950/70 px-3 py-1 text-xs font-medium text-blue-200 backdrop-blur-md">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/25 bg-[#050c1d]/80 px-3 py-1 text-xs font-medium text-blue-200 backdrop-blur-md">
                     <Sparkles className="h-3.5 w-3.5 text-sky-400" />
                     <span>SHEVA.DEV</span>
                   </span>
-                  <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-medium text-emerald-300">
+                  <span className="rounded-full border border-emerald-400/30 bg-[#051817]/80 px-2.5 py-1 text-[11px] font-medium text-emerald-300 backdrop-blur-md">
                     {isId ? "Terbuka untuk Magang" : "Open to Internship"}
                   </span>
                 </div>
 
-                {/* Center Stylized Portrait / Avatar Visual */}
-                <div className="relative z-10 my-auto flex flex-col items-center justify-center py-4">
-                  <div className="relative flex h-44 w-44 items-center justify-center">
-                    <div className="absolute inset-0 animate-[spin_18s_linear_infinite] rounded-full border border-dashed border-blue-400/30" />
-                    <div className="absolute -inset-3 animate-[pulse_4s_ease-in-out_infinite] rounded-full border border-sky-400/15" />
-                    <div className="relative flex h-36 w-36 flex-col items-center justify-center overflow-hidden rounded-full border-2 border-blue-400/50 bg-gradient-to-br from-blue-600/40 via-indigo-900/60 to-slate-950 shadow-[0_0_45px_rgba(37,99,235,0.6)] transition-transform duration-500 group-hover:scale-105">
-                      <span className="bg-gradient-to-b from-white via-blue-100 to-blue-400 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent">
-                        SR
-                      </span>
-                      <span className="mt-1 text-[10px] font-medium uppercase tracking-widest text-blue-300/90">
-                        Sheva Ramdhan
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Bottom Floating Info Pill inside Portrait Card */}
-                <div className="relative z-10 flex items-center justify-between rounded-2xl border border-white/10 bg-[#050c1d]/85 px-4 py-3 backdrop-blur-md">
+                <div className="relative z-10 mt-auto flex items-center justify-between rounded-2xl border border-white/12 bg-[#050c1d]/88 px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.55)] backdrop-blur-md">
                   <div className="flex items-center gap-3">
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600/25 text-blue-400">
                       <GraduationCap className="h-5 w-5" />
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-white">
-                        Universitas Andalas
+                        Sheva Ramdhan · Universitas Andalas
                       </p>
-                      <p className="text-[11px] text-slate-400">
+                      <p className="text-[11px] text-slate-300/90">
                         {isId
-                          ? "Backend & Arsitektur Enterprise"
-                          : "Backend & Enterprise Arch"}
+                          ? "Sistem Informasi · Web, Backend & Enterprise"
+                          : "Information Systems · Web, Backend & Enterprise"}
                       </p>
                     </div>
                   </div>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-blue-400/20 bg-blue-500/10 text-sky-300">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-blue-400/25 bg-blue-500/15 text-sky-300">
                     <Server className="h-4 w-4" />
                   </div>
                 </div>
