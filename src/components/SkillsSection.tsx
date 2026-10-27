@@ -89,24 +89,21 @@ export function SkillsSection() {
       >
         {/* 03 · Skills Section Kicker & Heading */}
         <FadeContent blur={true} duration={850} threshold={0.15} className="mb-12 w-full text-center">
-          <p className="mb-3 inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-sky-400">
-            <span className="inline-flex h-6 w-8 items-center justify-center rounded-md border border-blue-400/30 bg-blue-500/10 text-[11px] font-bold text-blue-300">
-              03
-            </span>
-            <span>{isId ? "Keahlian & Teknologi" : "Skills & Tech Stack"}</span>
+          <p className="mb-3 font-mono text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
+            03 / {isId ? "Keahlian & Teknologi" : "Skills & Tech Stack"}
           </p>
           <p className="text-base font-medium tracking-tight text-slate-200 sm:text-xl">
             {isId ? (
               <>
-                Saat ini saya tertarik bergabung dengan tim{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-blue-500 bg-clip-text font-bold text-transparent">
+                Tertarik bergabung dengan tim{" "}
+                <span className="font-semibold text-[#93c5fd]">
                   lintas fungsi
                 </span>
               </>
             ) : (
               <>
-                I’m currently looking to join a{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-blue-500 bg-clip-text font-bold text-transparent">
+                Looking to join a{" "}
+                <span className="font-semibold text-[#93c5fd]">
                   cross-functional
                 </span>{" "}
                 team
@@ -115,8 +112,8 @@ export function SkillsSection() {
           </p>
           <p className="mt-1.5 text-xs text-slate-400 sm:text-sm">
             {isId
-              ? "yang mengutamakan pengembangan aplikasi web andal, layanan backend skalabel, & arsitektur enterprise"
-              : "that values building reliable web applications, scalable backend services, & enterprise architecture"}
+              ? "yang berfokus pada pengembangan aplikasi web, layanan backend, & sistem informasi enterprise"
+              : "focused on web development, backend services, & enterprise information systems"}
           </p>
         </FadeContent>
 

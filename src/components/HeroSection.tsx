@@ -1,15 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import {
-  Mail,
-  ArrowRight,
-  Check,
-  Copy,
-  Sparkles,
-  GraduationCap,
-  Server,
-} from "lucide-react";
+import { Mail, ArrowRight, Check, Copy } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeContent from "./FadeContent";
 
@@ -45,8 +37,8 @@ export function HeroSection() {
     const y = e.clientY - rect.top;
     const pctX = (x / rect.width) * 100;
     const pctY = (y / rect.height) * 100;
-    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 7;
-    const rotateX = -((y - rect.height / 2) / (rect.height / 2)) * 7;
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 5;
+    const rotateX = -((y - rect.height / 2) / (rect.height / 2)) * 5;
     setTilt({ rotateX, rotateY, glowX: pctX, glowY: pctY });
   };
 
@@ -74,79 +66,49 @@ export function HeroSection() {
           duration={900}
           threshold={0.1}
           stagger={0.12}
-          className="grid grid-cols-1 items-center gap-[clamp(20px,4vw,56px)] lg:grid-cols-[minmax(0,1.1fr)_minmax(300px,0.78fr)]"
+          className="grid grid-cols-1 items-center gap-[clamp(24px,4vw,56px)] lg:grid-cols-[minmax(0,1.1fr)_minmax(300px,0.78fr)]"
         >
-          {/* Left Column: Intro & CTAs */}
+          {/* Left Column: Clean Editorial Intro & CTAs */}
           <div className="flex flex-col gap-5">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-500/25 bg-blue-500/10 px-3.5 py-1.5 text-xs font-medium text-blue-300 backdrop-blur-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
-              </span>
-              <span>
-                {isId
-                  ? "Universitas Andalas · Sistem Informasi (Sem 5)"
-                  : "Universitas Andalas · Information Systems (Sem 5)"}
-              </span>
-            </div>
-
-            <p className="text-lg font-medium tracking-tight text-slate-200 sm:text-xl">
-              {isId ? "Halo" : "Hey"}{" "}
-              <span aria-hidden="true" className="inline-block animate-bounce">
-                👋
-              </span>
-              , {isId ? "saya" : "I’m"}{" "}
-              <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-blue-500 bg-clip-text font-semibold text-transparent">
-                Sheva Ramdhan
-              </span>
+            <p className="text-lg font-medium tracking-tight text-slate-300 sm:text-xl">
+              {isId ? "Halo, saya" : "Hey, I’m"}{" "}
+              <span className="font-semibold text-white">Sheva Ramdhan</span>
             </p>
 
-            <h1 className="text-4xl font-extrabold leading-[1.04] tracking-tight text-white sm:text-5xl lg:text-[3.85rem]">
+            <h1 className="text-4xl font-extrabold leading-[1.03] tracking-tight text-white sm:text-5xl lg:text-[3.85rem]">
               {isId ? (
                 <>
-                  <span className="block">Pengembang Web</span>
-                  <span className="block">
-                    &amp; Backend serta{" "}
-                    <span className="bg-gradient-to-r from-blue-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">
-                      Sistem
-                    </span>
-                  </span>
-                  <span className="block">Enterprise</span>
+                  <span className="block">Web &amp; Backend</span>
+                  <span className="block text-[#93c5fd]">Developer</span>
+                  <span className="block">&amp; Sistem Enterprise</span>
                 </>
               ) : (
                 <>
                   <span className="block">Web &amp; Backend</span>
-                  <span className="block">
-                    Developer &amp;{" "}
-                    <span className="bg-gradient-to-r from-blue-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">
-                      Enterprise
-                    </span>
-                  </span>
-                  <span className="block">System Enthusiast</span>
+                  <span className="block text-[#93c5fd]">Developer</span>
+                  <span className="block">&amp; Enterprise Systems</span>
                 </>
               )}
             </h1>
 
-            <p className="max-w-2xl text-base leading-relaxed text-slate-300/80 sm:text-lg lg:text-[1.12rem]">
+            <p className="max-w-xl text-base leading-relaxed text-slate-300/80 sm:text-[1.08rem]">
               {isId ? (
                 <>
                   Mahasiswa semester 5 Sistem Informasi di{" "}
-                  <span className="font-medium text-slate-100">
+                  <span className="font-medium text-white">
                     Universitas Andalas
-                  </span>{" "}
-                  yang berfokus pada pengembangan web full-stack, rekayasa
-                  backend, dan arsitektur enterprise untuk membangun sistem
-                  digital yang terstruktur dan andal.
+                  </span>
+                  . Fokus mengerjakan pengembangan aplikasi web, layanan backend,
+                  dan perancangan arsitektur sistem informasi.
                 </>
               ) : (
                 <>
                   Fifth-semester Information Systems student at{" "}
-                  <span className="font-medium text-slate-100">
+                  <span className="font-medium text-white">
                     Universitas Andalas
                   </span>
-                  , focused on full-stack web development, backend engineering,
-                  and enterprise architecture to build reliable, structured
-                  digital systems.
+                  , focusing on full-stack web applications, backend services,
+                  and enterprise system architecture.
                 </>
               )}
             </p>
@@ -157,30 +119,30 @@ export function HeroSection() {
                 <button
                   type="button"
                   onClick={() => setShowEmail(true)}
-                  className="group relative inline-flex h-12 cursor-pointer items-center justify-center gap-2.5 rounded-xl bg-blue-600 px-6 text-sm font-semibold text-white shadow-[0_0_30px_rgba(37,99,235,0.5)] transition-all duration-300 hover:bg-blue-500 hover:shadow-[0_0_40px_rgba(56,189,248,0.65)]"
+                  className="inline-flex h-12 cursor-pointer items-center justify-center gap-2.5 rounded-xl bg-blue-600 px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-blue-500"
                 >
-                  <Mail className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
+                  <Mail className="h-4 w-4" />
                   <span>{isId ? "Hubungi Saya" : "Contact"}</span>
                 </button>
               ) : (
-                <div className="inline-flex h-12 items-center gap-2 rounded-xl border border-blue-400/35 bg-blue-950/70 px-3.5 text-sm text-blue-100 shadow-[0_0_25px_rgba(37,99,235,0.35)] backdrop-blur-md">
+                <div className="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 bg-[#081226] px-3.5 text-sm text-slate-100">
                   <Mail className="h-4 w-4 text-blue-400" />
-                  <span className="font-mono text-xs sm:text-sm">{email}</span>
+                  <a
+                    href={`mailto:${email}`}
+                    className="font-mono text-xs text-slate-100 underline-offset-4 hover:underline sm:text-sm"
+                  >
+                    {email}
+                  </a>
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="ml-1 inline-flex items-center gap-1 rounded-lg bg-blue-600/80 px-2.5 py-1 text-xs font-medium text-white transition hover:bg-blue-500"
+                    aria-label="Copy email address"
+                    className="ml-1 inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-white/5 text-slate-200 transition hover:bg-white/10"
                   >
                     {copied ? (
-                      <>
-                        <Check className="h-3.5 w-3.5 text-emerald-300" />
-                        <span>{isId ? "Tersalin" : "Copied"}</span>
-                      </>
+                      <Check className="h-3.5 w-3.5 text-emerald-400" />
                     ) : (
-                      <>
-                        <Copy className="h-3.5 w-3.5" />
-                        <span>{isId ? "Salin" : "Copy"}</span>
-                      </>
+                      <Copy className="h-3.5 w-3.5" />
                     )}
                   </button>
                 </div>
@@ -188,43 +150,15 @@ export function HeroSection() {
 
               <a
                 href="#work"
-                className="group inline-flex h-12 items-center gap-2 rounded-xl border border-white/12 bg-white/[0.04] px-6 text-sm font-semibold text-slate-100 backdrop-blur-md transition-all duration-300 hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-white"
+                className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/[0.03] px-6 text-sm font-medium text-slate-200 transition-colors duration-200 hover:border-white/25 hover:bg-white/[0.06] hover:text-white"
               >
                 <span>{isId ? "Lihat Perjalanan" : "View My Journey"}</span>
-                <ArrowRight className="h-4 w-4 text-blue-400 transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </a>
-            </div>
-
-            {/* Quick Highlights */}
-            <div className="mt-4 grid max-w-xl grid-cols-3 gap-4 border-t border-white/10 pt-6">
-              <div>
-                <p className="text-xs uppercase tracking-wider text-slate-400">
-                  Semester
-                </p>
-                <p className="mt-0.5 text-lg font-bold text-white sm:text-xl">
-                  {isId ? "Sem 5" : "5th Sem"}
-                </p>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-wider text-slate-400">
-                  {isId ? "Program Studi" : "Major"}
-                </p>
-                <p className="mt-0.5 text-lg font-bold text-blue-400 sm:text-xl">
-                  {isId ? "Sistem Informasi" : "Info Systems"}
-                </p>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-wider text-slate-400">
-                  {isId ? "Fokus" : "Focus"}
-                </p>
-                <p className="mt-0.5 text-lg font-bold text-sky-300 sm:text-xl">
-                  Web &amp; Backend
-                </p>
-              </div>
             </div>
           </div>
 
-          {/* Right Column: PortraitMorph Card with Blue-Flow Glow */}
+          {/* Right Column: Pure Portrait Frame (No Cluttered Badges or Overlays) */}
           <div className="flex items-center justify-center">
             <div
               ref={cardRef}
@@ -232,76 +166,21 @@ export function HeroSection() {
               onPointerLeave={handlePointerLeave}
               style={{
                 transform: `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
-                transition: "transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
+                transition: "transform 200ms cubic-bezier(0.22, 1, 0.36, 1)",
               }}
-              className="group relative aspect-square w-full max-w-[420px] rounded-[2rem] border border-blue-400/25 bg-[#071126]/80 p-2.5 shadow-[0_0_80px_-15px_rgba(37,99,235,0.55)] backdrop-blur-xl"
+              className="group relative aspect-square w-full max-w-[400px] rounded-[28px] border border-white/12 bg-[#071126] p-2 shadow-[0_24px_70px_-15px_rgba(15,35,80,0.65)]"
             >
-              {/* Blue-flow ambient glow behind portrait */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -inset-4 -z-10 rounded-[2.5rem] bg-gradient-to-tr from-blue-600/35 via-sky-500/20 to-indigo-600/30 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
-              />
-
-              {/* Inner Portrait Frame */}
-              <div className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-[1.6rem] border border-white/10 bg-gradient-to-b from-[#0b1938] via-[#071024] to-[#040917] p-5 sm:p-6">
-                {/* Real Portrait Photo with Focused Framing & Blue-Tinted Vignette */}
+              <div className="relative h-full w-full overflow-hidden rounded-[22px] bg-[#050c1d]">
                 <img
                   src="/assets/profile/sheva.png"
-                  alt="Sheva Ramdhan — Information Systems Student at Universitas Andalas"
-                  className="pointer-events-none absolute inset-0 h-full w-full scale-[1.18] object-cover object-[50%_42%] brightness-[0.96] contrast-[1.06] saturate-[0.95] transition-transform duration-700 ease-out group-hover:scale-[1.23]"
+                  alt="Sheva Ramdhan"
+                  className="h-full w-full scale-[1.15] object-cover object-[50%_42%] transition-transform duration-500 ease-out group-hover:scale-[1.19]"
                 />
-
-                {/* Top/Bottom/Edge Atmospheric Navy Vignette so UI Badges Pop */}
+                {/* Soft subtle edge vignette only */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,transparent_28%,rgba(5,12,29,0.58)_72%,rgba(4,9,23,0.92)_100%)]"
+                  className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,transparent_48%,rgba(4,9,23,0.45)_100%)]"
                 />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#040917]/80 via-transparent to-[#040917]/92"
-                />
-
-                {/* Pointer-following spotlight inside portrait */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 transition-opacity duration-300"
-                  style={{
-                    background: `radial-gradient(320px circle at ${tilt.glowX}% ${tilt.glowY}%, rgba(56, 189, 248, 0.22), rgba(37, 99, 235, 0.08) 45%, transparent 80%)`,
-                  }}
-                />
-
-                {/* Top Card Header */}
-                <div className="relative z-10 flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/25 bg-[#050c1d]/80 px-3 py-1 text-xs font-medium text-blue-200 backdrop-blur-md">
-                    <Sparkles className="h-3.5 w-3.5 text-sky-400" />
-                    <span>SHEVA.DEV</span>
-                  </span>
-                  <span className="rounded-full border border-emerald-400/30 bg-[#051817]/80 px-2.5 py-1 text-[11px] font-medium text-emerald-300 backdrop-blur-md">
-                    {isId ? "Terbuka untuk Magang" : "Open to Internship"}
-                  </span>
-                </div>
-
-                {/* Bottom Floating Info Pill inside Portrait Card */}
-                <div className="relative z-10 mt-auto flex items-center justify-between rounded-2xl border border-white/12 bg-[#050c1d]/88 px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.55)] backdrop-blur-md">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600/25 text-blue-400">
-                      <GraduationCap className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-white">
-                        Sheva Ramdhan · Universitas Andalas
-                      </p>
-                      <p className="text-[11px] text-slate-300/90">
-                        {isId
-                          ? "Sistem Informasi · Web, Backend & Enterprise"
-                          : "Information Systems · Web, Backend & Enterprise"}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-blue-400/25 bg-blue-500/15 text-sky-300">
-                    <Server className="h-4 w-4" />
-                  </div>
-                </div>
               </div>
             </div>
           </div>

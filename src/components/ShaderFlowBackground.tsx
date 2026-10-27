@@ -1,6 +1,24 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import GridMotion from "./GridMotion";
+
+const SUBTLE_GRID_ITEMS = [
+  "NEXT.JS",
+  "NODE.JS",
+  "TYPESCRIPT",
+  "POSTGRESQL",
+  "REST API",
+  "ENTERPRISE",
+  "GOLANG",
+  "DOCKER",
+  "EXPRESS",
+  "MONGODB",
+  "BPMN · UML",
+  "SQL SCHEMA",
+  "SYSTEM ARCH",
+  "BACKEND",
+];
 
 export function ShaderFlowBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -116,7 +134,28 @@ export function ShaderFlowBackground() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
-      <canvas ref={canvasRef} className="h-full w-full opacity-90" />
+      <canvas ref={canvasRef} className="h-full w-full opacity-85" />
+      {/* Subtle React Bits <GridMotion /> Layer ("tipis-tipis") */}
+      <div className="absolute inset-0 opacity-[0.15]">
+        <GridMotion
+          items={SUBTLE_GRID_ITEMS}
+          rows={4}
+          aspectRatio={1.55}
+          gap={18}
+          radius={14}
+          angle={-11}
+          tilt={0}
+          speed={14}
+          direction="alternate"
+          parallax={0.35}
+          spotlight={0.65}
+          dim={0.55}
+          fade={0.75}
+          tileColor="rgba(11, 24, 54, 0.42)"
+          textColor="rgba(147, 197, 253, 0.28)"
+          theme="dark"
+        />
+      </div>
       {/* Subtle architectural grid overlay */}
       <div
         className="absolute inset-0 opacity-[0.035]"

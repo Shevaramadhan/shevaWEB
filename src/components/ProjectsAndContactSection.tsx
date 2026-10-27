@@ -1,116 +1,110 @@
 "use client";
 
-import {
-  Sparkles,
-  Compass,
-  ChartLine,
-  Layers,
-  ArrowUpRight,
-  Mail,
-  MapPin,
-} from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FadeContent from "./FadeContent";
 
-const FEATURED_PROJECTS_EN = [
+interface ProjectEntry {
+  id: string;
+  name: string;
+  role: string;
+  architecture: string;
+  headline: string;
+  description: string;
+  tags: string[];
+}
+
+const FEATURED_PROJECTS_EN: ProjectEntry[] = [
   {
     id: "si-academic",
     name: "UNAND Enterprise Information Portal",
     role: "Backend & Web Developer · 2026",
+    architecture: "Next.js App Router → REST API → PostgreSQL",
     headline:
-      "Enterprise academic workflow & data management portal built for reliability.",
+      "Academic workflow & role-based data management portal.",
     description:
-      "Engineered a structured web platform for managing academic workflows, role-based access control, and relational data reporting.",
+      "Web platform built for managing academic workflows, role-based access control (RBAC), and structured relational data reporting.",
     tags: ["Next.js", "TypeScript", "Node.js", "PostgreSQL"],
-    icon: Compass,
-    gradient: "from-blue-600/35 via-sky-500/15 to-indigo-900/40",
   },
   {
     id: "enterprise-api-service",
     name: "RESTful API & Service Architecture",
     role: "Backend Engineer · 2026",
+    architecture: "Client → JWT Auth & Validation → Express / MongoDB",
     headline:
-      "Modular backend service with authentication, validation, and database indexing.",
+      "Modular backend service with authentication, request validation, and indexing.",
     description:
-      "Designed and implemented clean REST API endpoints with Express, Node.js, and structured database schemas for high-consistency operations.",
+      "Designed and implemented REST API endpoints with Express, Node.js, and structured database schemas for multi-role operations.",
     tags: ["Node.js", "Express.js", "MongoDB", "REST API"],
-    icon: Sparkles,
-    gradient: "from-sky-500/35 via-blue-600/20 to-slate-900/50",
   },
   {
     id: "inventory-analytics",
     name: "Enterprise Inventory & Reporting System",
     role: "System Analyst & Full-Stack Developer · 2025",
+    architecture: "BPMN / UML Blueprint → Normalized SQL → Web Dashboard",
     headline:
-      "End-to-end enterprise architecture & operational analytics dashboard.",
+      "Enterprise architecture modeling & operational inventory dashboard.",
     description:
-      "Information Systems project combining BPMN/UML enterprise modeling, normalized SQL schemas, and automated operational reporting.",
+      "Information Systems project combining BPMN/UML process modeling, normalized SQL tables, and operational reporting.",
     tags: ["Enterprise Arch", "SQL", "TypeScript", "REST API"],
-    icon: ChartLine,
-    gradient: "from-indigo-600/35 via-blue-500/15 to-slate-900/50",
   },
   {
     id: "campus-event-hub",
     name: "Campus Workflow & Registration System",
     role: "Web Developer · 2025",
+    architecture: "React Client → Verification Service → Relational DB",
     headline:
-      "Streamlining multi-faculty event registration and automated verification.",
+      "Multi-faculty event registration and attendance verification system.",
     description:
-      "Built the web application and backend verification endpoints to handle concurrent student registrations and attendance tracking.",
+      "Web application and backend verification endpoints handling student registrations, quota checks, and attendance tracking.",
     tags: ["React", "Next.js", "Node.js", "SQL"],
-    icon: Layers,
-    gradient: "from-blue-500/35 via-cyan-500/15 to-indigo-950/50",
   },
 ];
 
-const FEATURED_PROJECTS_ID = [
+const FEATURED_PROJECTS_ID: ProjectEntry[] = [
   {
     id: "si-academic",
     name: "Portal Informasi Enterprise UNAND",
     role: "Backend & Web Developer · 2026",
+    architecture: "Next.js App Router → REST API → PostgreSQL",
     headline:
-      "Portal alur kerja akademik & manajemen data enterprise yang andal.",
+      "Portal alur kerja akademik & manajemen akses data berbasis peran.",
     description:
-      "Membangun platform web terstruktur untuk mengelola alur akademik, kontrol akses berbasis peran (RBAC), dan pelaporan data relasional.",
+      "Platform web untuk mengelola alur administrasi akademik, kontrol akses berbasis peran (RBAC), dan pelaporan data relasional.",
     tags: ["Next.js", "TypeScript", "Node.js", "PostgreSQL"],
-    icon: Compass,
-    gradient: "from-blue-600/35 via-sky-500/15 to-indigo-900/40",
   },
   {
     id: "enterprise-api-service",
     name: "Arsitektur Layanan & RESTful API",
     role: "Backend Engineer · 2026",
+    architecture: "Client → JWT Auth & Validation → Express / MongoDB",
     headline:
-      "Layanan backend modular dengan autentikasi, validasi, dan pengindeksan database.",
+      "Layanan backend modular dengan autentikasi, validasi request, dan indexing.",
     description:
-      "Merancang dan mengimplementasikan endpoint REST API menggunakan Express, Node.js, dan skema database terstruktur untuk konsistensi tinggi.",
+      "Merancang dan mengimplementasikan endpoint REST API menggunakan Express, Node.js, dan skema database untuk kebutuhan multi-role.",
     tags: ["Node.js", "Express.js", "MongoDB", "REST API"],
-    icon: Sparkles,
-    gradient: "from-sky-500/35 via-blue-600/20 to-slate-900/50",
   },
   {
     id: "inventory-analytics",
     name: "Sistem Inventaris & Pelaporan Enterprise",
     role: "System Analyst & Full-Stack Developer · 2025",
+    architecture: "BPMN / UML Blueprint → Normalized SQL → Web Dashboard",
     headline:
-      "Arsitektur enterprise terpadu & dashboard analitik operasional.",
+      "Pemodelan arsitektur enterprise & dashboard operasional inventaris.",
     description:
-      "Proyek Sistem Informasi yang memadukan pemodelan proses bisnis BPMN/UML, skema SQL ternormalisasi, dan pelaporan operasional otomatis.",
+      "Proyek Sistem Informasi yang memadukan pemodelan proses bisnis BPMN/UML, tabel SQL ternormalisasi, dan pelaporan operasional.",
     tags: ["Enterprise Arch", "SQL", "TypeScript", "REST API"],
-    icon: ChartLine,
-    gradient: "from-indigo-600/35 via-blue-500/15 to-slate-900/50",
   },
   {
     id: "campus-event-hub",
     name: "Sistem Registrasi & Alur Kerja Kampus",
     role: "Web Developer · 2025",
+    architecture: "React Client → Verification Service → Relational DB",
     headline:
-      "Menyederhanakan registrasi kegiatan lintas fakultas dan verifikasi otomatis.",
+      "Sistem registrasi kegiatan lintas fakultas dan verifikasi kehadiran.",
     description:
-      "Membangun aplikasi web dan endpoint verifikasi backend untuk menangani pendaftaran mahasiswa secara paralel dan pencatatan kehadiran.",
+      "Aplikasi web dan endpoint backend untuk menangani pendaftaran peserta, pengecekan kuota, dan pencatatan kehadiran.",
     tags: ["React", "Next.js", "Node.js", "SQL"],
-    icon: Layers,
-    gradient: "from-blue-500/35 via-cyan-500/15 to-indigo-950/50",
   },
 ];
 
@@ -125,124 +119,78 @@ export function ProjectsSection() {
         className="site-container mx-auto"
         style={{ width: "min(1200px, 88%)", marginInline: "auto" }}
       >
-        {/* 02 · Featured Projects Heading */}
         <FadeContent blur={true} duration={850} threshold={0.12} className="mb-14">
-          <p className="inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-sky-400">
-            <span className="inline-flex h-6 w-8 items-center justify-center rounded-md border border-blue-400/30 bg-blue-500/10 text-[11px] font-bold text-blue-300">
-              02
-            </span>
-            <span>{isId ? "Proyek Pilihan" : "Featured Projects"}</span>
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
+            02 / {isId ? "Proyek Pilihan" : "Selected Projects"}
           </p>
 
-          <h2 className="mt-4 max-w-3xl text-3xl font-extrabold uppercase leading-[1.04] tracking-tight text-white sm:text-5xl lg:text-[3.35rem]">
-            {isId ? (
-              <>
-                Karya pilihan yang dibangun dengan{" "}
-                <span className="bg-gradient-to-r from-sky-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                  struktur &amp; keandalan.
-                </span>
-              </>
-            ) : (
-              <>
-                Selected work shaped with{" "}
-                <span className="bg-gradient-to-r from-sky-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                  clarity &amp; structure.
-                </span>
-              </>
-            )}
+          <h2 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+            {isId ? "Proyek & Studi Kasus" : "Projects & Case Studies"}
           </h2>
-
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-300/75 sm:text-[1.02rem]">
-            {isId
-              ? "Dari studi kasus Sistem Informasi hingga aplikasi web dan layanan backend yang saya rancang dan bangun."
-              : "From Information Systems case studies to web applications and backend services I’ve designed and built."}
-          </p>
         </FadeContent>
 
         <FadeContent
           blur={true}
           duration={850}
           threshold={0.1}
-          stagger={0.12}
-          className="grid grid-cols-1 gap-7 md:grid-cols-2"
+          stagger={0.1}
+          className="grid grid-cols-1 gap-6 md:grid-cols-2"
         >
-          {projects.map((project, idx) => {
-            const Icon = project.icon;
-            return (
-              <article
-                key={project.id}
-                className="group flex flex-col justify-between gap-5 rounded-[2rem] border border-white/10 bg-[#060f24]/80 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-blue-400/40 hover:shadow-[0_20px_60px_-15px_rgba(37,99,235,0.4)] sm:p-5"
-              >
-                <div>
-                  {/* Card Header */}
-                  <header className="flex items-center justify-between px-1 pt-1 pb-3">
-                    <div className="flex items-center gap-2.5">
-                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-blue-400/25 bg-blue-500/10 text-sky-300">
-                        <Icon className="h-4 w-4" />
-                      </span>
-                      <span className="text-sm font-semibold text-white">
-                        {project.name}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-blue-400/50">
-                        0{idx + 1}
-                      </span>
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:border-blue-400/40 group-hover:text-sky-300">
-                        <ArrowUpRight className="h-4 w-4" />
-                      </span>
-                    </div>
-                  </header>
-
-                  {/* Mockup Preview Surface */}
-                  <div
-                    className={`relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${project.gradient} p-5`}
-                  >
-                    <div className="flex h-full w-full flex-col justify-between rounded-xl border border-white/10 bg-[#040a18]/85 p-4 backdrop-blur-md transition-transform duration-500 group-hover:scale-[1.02]">
-                      <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-                        <div className="flex items-center gap-1.5">
-                          <span className="h-2 w-2 rounded-full bg-blue-400" />
-                          <span className="h-2 w-2 rounded-full bg-sky-300" />
-                          <span className="h-2 w-2 rounded-full bg-indigo-400" />
-                        </div>
-                        <span className="font-mono text-[10px] text-blue-300/80">
-                          sheva.dev/{project.id}
-                        </span>
-                      </div>
-                      <div className="my-auto space-y-2 py-2">
-                        <div className="h-2.5 w-2/3 rounded-full bg-gradient-to-r from-blue-400/50 to-sky-400/20" />
-                        <div className="h-2 w-1/2 rounded-full bg-white/10" />
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {project.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="rounded-md border border-blue-400/20 bg-blue-500/10 px-2 py-0.5 text-[10px] font-medium text-sky-200"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+          {projects.map((project, idx) => (
+            <article
+              key={project.id}
+              className="group flex flex-col justify-between gap-6 rounded-2xl border border-white/10 bg-[#060f24]/80 p-6 transition-colors duration-200 hover:border-white/20 sm:p-7"
+            >
+              <div>
+                <header className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-xs font-medium text-slate-400">
+                      0{idx + 1}
+                    </span>
+                    <span className="text-sm font-semibold text-white">
+                      {project.name}
+                    </span>
                   </div>
+                  <ArrowUpRight className="h-4 w-4 text-slate-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+                </header>
 
-                  {/* Text Content */}
-                  <div className="mt-4 flex flex-col gap-2 px-1">
-                    <h3 className="text-lg font-semibold leading-snug text-white sm:text-xl">
-                      {project.headline}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-slate-300/75">
-                      {project.description}
-                    </p>
-                  </div>
+                {/* Clean Technical Architecture Bar (Replaces Fake AI Skeleton Mockup) */}
+                <div className="mt-4 rounded-xl border border-white/8 bg-[#040917]/90 px-4 py-3">
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-slate-400">
+                    {isId ? "Alur Arsitektur" : "Architecture Flow"}
+                  </p>
+                  <p className="mt-1 font-mono text-xs text-blue-300">
+                    {project.architecture}
+                  </p>
                 </div>
 
-                <p className="px-1 pt-1 font-mono text-xs font-medium text-blue-300/70">
+                <div className="mt-5 flex flex-col gap-2">
+                  <h3 className="text-lg font-bold leading-snug text-white sm:text-xl">
+                    {project.headline}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-300/80">
+                    {project.description}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3 border-t border-white/8 pt-4">
+                <div className="flex flex-wrap gap-1.5">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-0.5 font-mono text-[11px] text-slate-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <p className="font-mono text-xs text-slate-400">
                   {project.role}
                 </p>
-              </article>
-            );
-          })}
+              </div>
+            </article>
+          ))}
         </FadeContent>
       </div>
     </section>
@@ -261,33 +209,28 @@ export function ContactSection() {
     >
       <FadeContent blur={true} duration={850} threshold={0.12}>
         <div className="mb-8">
-          <p className="inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-sky-400">
-            <span className="inline-flex h-6 w-8 items-center justify-center rounded-md border border-blue-400/30 bg-blue-500/10 text-[11px] font-bold text-blue-300">
-              05
-            </span>
-            <span>{isId ? "Kontak" : "Contact"}</span>
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
+            05 / {isId ? "Kontak" : "Contact"}
           </p>
         </div>
 
-        <div className="relative overflow-hidden rounded-[2.2rem] border border-blue-400/30 bg-gradient-to-br from-[#081533] via-[#060e22] to-[#040917] p-2 shadow-[0_0_90px_-20px_rgba(37,99,235,0.5)]">
-        <div className="relative grid gap-8 rounded-[1.8rem] border border-white/10 bg-[#050c1d]/80 p-7 backdrop-blur-xl sm:p-10 md:grid-cols-[1.3fr_1fr] md:items-center">
+        <div className="grid gap-8 rounded-2xl border border-white/10 bg-[#060f24]/85 p-7 sm:p-10 md:grid-cols-[1.3fr_1fr] md:items-center">
           <div className="flex flex-col gap-4">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-400/25 bg-blue-500/10 px-3 py-1 text-xs font-medium text-sky-300">
-              <MapPin className="h-3.5 w-3.5" />
-              <span>Padang, Indonesia · Universitas Andalas</span>
-            </span>
-            <h2 className="text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl lg:text-5xl">
-              {isId ? "Mari bangun sesuatu yang nyata." : "Let’s build something real."}
+            <p className="font-mono text-xs uppercase tracking-wider text-slate-400">
+              Padang, Indonesia · Universitas Andalas
+            </p>
+            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+              {isId ? "Mari Terhubung" : "Get in Touch"}
             </h2>
-            <p className="max-w-md text-base leading-relaxed text-slate-300/80">
+            <p className="max-w-md text-sm leading-relaxed text-slate-300/80 sm:text-base">
               {isId
-                ? "Saya selalu terbuka untuk berdiskusi mengenai peluang magang rekayasa perangkat lunak, proyek pengembangan web & backend, maupun kolaborasi sistem enterprise. Jangan ragu untuk menghubungi saya!"
-                : "I’m always open to discussing software engineering internships, backend & web development projects, or enterprise system collaborations. Feel free to reach out!"}
+                ? "Terbuka untuk diskusi seputar magang software engineering, pengembangan web & backend, maupun kolaborasi sistem informasi."
+                : "Open to discussing software engineering internships, web & backend development, or information systems collaborations."}
             </p>
             <div className="mt-2 flex flex-wrap items-center gap-3">
               <a
                 href="mailto:sheva.ramdhan@student.unand.ac.id"
-                className="inline-flex h-11 items-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-[0_0_25px_rgba(37,99,235,0.6)] transition hover:bg-blue-500"
+                className="inline-flex h-11 items-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-500"
               >
                 <Mail className="h-4 w-4" />
                 <span>sheva.ramdhan@student.unand.ac.id</span>
@@ -295,13 +238,12 @@ export function ContactSection() {
             </div>
           </div>
 
-          {/* Right Social Box */}
-          <div className="flex flex-col items-center justify-center gap-6 rounded-2xl border border-white/10 bg-[#040917]/90 p-7 text-center">
+          <div className="flex flex-col items-start justify-between gap-6 rounded-xl border border-white/10 bg-[#040917]/90 p-6 sm:items-center sm:text-center">
             <div className="flex items-center gap-3">
               <a
                 aria-label="Email Sheva"
                 href="mailto:sheva.ramdhan@student.unand.ac.id"
-                className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 transition hover:border-blue-400/50 hover:bg-blue-600/20 hover:text-white"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-300 transition hover:border-white/25 hover:text-white"
               >
                 <Mail className="h-5 w-5" />
               </a>
@@ -310,7 +252,7 @@ export function ContactSection() {
                 href="https://github.com/Shevaramadhan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 transition hover:border-blue-400/50 hover:bg-blue-600/20 hover:text-white"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-300 transition hover:border-white/25 hover:text-white"
               >
                 <svg
                   aria-hidden="true"
@@ -326,7 +268,7 @@ export function ContactSection() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 transition hover:border-blue-400/50 hover:bg-blue-600/20 hover:text-white"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-300 transition hover:border-white/25 hover:text-white"
               >
                 <svg
                   aria-hidden="true"
@@ -344,13 +286,12 @@ export function ContactSection() {
               </p>
               <p className="mt-1 text-xs text-slate-400">
                 {isId
-                  ? "Sistem Informasi · Universitas Andalas · Dibangun dengan Next.js"
-                  : "Information Systems · Universitas Andalas · Built with Next.js"}
+                  ? "Sistem Informasi · Universitas Andalas"
+                  : "Information Systems · Universitas Andalas"}
               </p>
             </div>
           </div>
         </div>
-      </div>
       </FadeContent>
     </section>
   );
