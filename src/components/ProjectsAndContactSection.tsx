@@ -10,6 +10,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import FadeContent from "./FadeContent";
 
 const FEATURED_PROJECTS_EN = [
   {
@@ -125,7 +126,7 @@ export function ProjectsSection() {
         style={{ width: "min(1200px, 88%)", marginInline: "auto" }}
       >
         {/* 02 · Featured Projects Heading */}
-        <div className="mb-14">
+        <FadeContent blur={true} duration={850} threshold={0.12} className="mb-14">
           <p className="inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-sky-400">
             <span className="inline-flex h-6 w-8 items-center justify-center rounded-md border border-blue-400/30 bg-blue-500/10 text-[11px] font-bold text-blue-300">
               02
@@ -156,9 +157,15 @@ export function ProjectsSection() {
               ? "Dari studi kasus Sistem Informasi hingga aplikasi web dan layanan backend yang saya rancang dan bangun."
               : "From Information Systems case studies to web applications and backend services I’ve designed and built."}
           </p>
-        </div>
+        </FadeContent>
 
-        <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
+        <FadeContent
+          blur={true}
+          duration={850}
+          threshold={0.1}
+          stagger={0.12}
+          className="grid grid-cols-1 gap-7 md:grid-cols-2"
+        >
           {projects.map((project, idx) => {
             const Icon = project.icon;
             return (
@@ -236,7 +243,7 @@ export function ProjectsSection() {
               </article>
             );
           })}
-        </div>
+        </FadeContent>
       </div>
     </section>
   );
@@ -252,16 +259,17 @@ export function ContactSection() {
       className="site-container mx-auto my-12 pb-20"
       style={{ width: "min(1200px, 88%)", marginInline: "auto" }}
     >
-      <div className="mb-8">
-        <p className="inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-sky-400">
-          <span className="inline-flex h-6 w-8 items-center justify-center rounded-md border border-blue-400/30 bg-blue-500/10 text-[11px] font-bold text-blue-300">
-            05
-          </span>
-          <span>{isId ? "Kontak" : "Contact"}</span>
-        </p>
-      </div>
+      <FadeContent blur={true} duration={850} threshold={0.12}>
+        <div className="mb-8">
+          <p className="inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-sky-400">
+            <span className="inline-flex h-6 w-8 items-center justify-center rounded-md border border-blue-400/30 bg-blue-500/10 text-[11px] font-bold text-blue-300">
+              05
+            </span>
+            <span>{isId ? "Kontak" : "Contact"}</span>
+          </p>
+        </div>
 
-      <div className="relative overflow-hidden rounded-[2.2rem] border border-blue-400/30 bg-gradient-to-br from-[#081533] via-[#060e22] to-[#040917] p-2 shadow-[0_0_90px_-20px_rgba(37,99,235,0.5)]">
+        <div className="relative overflow-hidden rounded-[2.2rem] border border-blue-400/30 bg-gradient-to-br from-[#081533] via-[#060e22] to-[#040917] p-2 shadow-[0_0_90px_-20px_rgba(37,99,235,0.5)]">
         <div className="relative grid gap-8 rounded-[1.8rem] border border-white/10 bg-[#050c1d]/80 p-7 backdrop-blur-xl sm:p-10 md:grid-cols-[1.3fr_1fr] md:items-center">
           <div className="flex flex-col gap-4">
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-400/25 bg-blue-500/10 px-3 py-1 text-xs font-medium text-sky-300">
@@ -299,7 +307,7 @@ export function ContactSection() {
               </a>
               <a
                 aria-label="GitHub Profile"
-                href="https://github.com"
+                href="https://github.com/Shevaramadhan"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 transition hover:border-blue-400/50 hover:bg-blue-600/20 hover:text-white"
@@ -343,6 +351,7 @@ export function ContactSection() {
           </div>
         </div>
       </div>
+      </FadeContent>
     </section>
   );
 }

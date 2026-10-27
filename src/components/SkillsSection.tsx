@@ -3,6 +3,8 @@
 import { useState, type CSSProperties } from "react";
 import OrbitImages from "./OrbitImages";
 import LogoLoop, { type LogoLoopItem } from "./LogoLoop";
+import ElectricLogo from "./ElectricLogo";
+import FadeContent from "./FadeContent";
 import { useLanguage } from "@/context/LanguageContext";
 import {
   CENTER_ORB_EMBLEM,
@@ -86,7 +88,7 @@ export function SkillsSection() {
         style={{ width: "min(1200px, 88%)", marginInline: "auto" }}
       >
         {/* 03 · Skills Section Kicker & Heading */}
-        <div className="mb-12 w-full text-center">
+        <FadeContent blur={true} duration={850} threshold={0.15} className="mb-12 w-full text-center">
           <p className="mb-3 inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-sky-400">
             <span className="inline-flex h-6 w-8 items-center justify-center rounded-md border border-blue-400/30 bg-blue-500/10 text-[11px] font-bold text-blue-300">
               03
@@ -116,7 +118,7 @@ export function SkillsSection() {
               ? "yang mengutamakan pengembangan aplikasi web andal, layanan backend skalabel, & arsitektur enterprise"
               : "that values building reliable web applications, scalable backend services, & enterprise architecture"}
           </p>
-        </div>
+        </FadeContent>
 
         {/* Main Figma Skills Stage */}
         <div className="relative flex w-full flex-col items-center">
@@ -420,11 +422,12 @@ export function SkillsSection() {
                       />
                     </svg>
 
-                    {/* Central Glowing Blue Sphere with White Neon Emblem */}
+                    {/* Central Glowing Blue Sphere with React Bits <ElectricLogo /> SR Emblem */}
                     <div
+                      title={CENTER_ORB_EMBLEM.alt}
                       style={{
-                        width: "156px",
-                        height: "156px",
+                        width: "164px",
+                        height: "164px",
                         borderRadius: "9999px",
                         background:
                           "radial-gradient(circle at 50% 35%, #2563eb 0%, #1d4ed8 42%, #0f2152 100%)",
@@ -434,19 +437,32 @@ export function SkillsSection() {
                         alignItems: "center",
                         justifyContent: "center",
                         position: "relative",
+                        overflow: "hidden",
+                        cursor: "pointer",
                       }}
                     >
-                      <img
+                      <ElectricLogo
                         src={CENTER_ORB_EMBLEM.src}
-                        alt={CENTER_ORB_EMBLEM.alt}
-                        width={84}
-                        height={70}
+                        color="#ffffff"
+                        glowColor="#38bdf8"
+                        scale={0.62}
+                        intensity={1.25}
+                        glow={1.15}
+                        thickness={1.55}
+                        strands={4}
+                        bend={0.55}
+                        crackle={1.35}
+                        arcs={1.25}
+                        flicker={0.45}
+                        fill={0.32}
+                        speed={2.1}
+                        interactive={true}
+                        cursorIntensity={1.6}
+                        cursorRadius={110}
                         style={{
-                          width: "84px",
-                          height: "70px",
-                          objectFit: "contain",
-                          filter:
-                            "drop-shadow(0 0 12px rgba(255, 255, 255, 0.9))",
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "9999px",
                         }}
                       />
                     </div>

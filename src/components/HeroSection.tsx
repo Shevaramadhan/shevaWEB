@@ -11,6 +11,7 @@ import {
   Server,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import FadeContent from "./FadeContent";
 
 export function HeroSection() {
   const { lang } = useLanguage();
@@ -68,7 +69,13 @@ export function HeroSection() {
         className="site-container mx-auto"
         style={{ width: "min(1200px, 88%)", marginInline: "auto" }}
       >
-        <div className="grid grid-cols-1 items-center gap-[clamp(20px,4vw,56px)] lg:grid-cols-[minmax(0,1.1fr)_minmax(300px,0.78fr)]">
+        <FadeContent
+          blur={true}
+          duration={900}
+          threshold={0.1}
+          stagger={0.12}
+          className="grid grid-cols-1 items-center gap-[clamp(20px,4vw,56px)] lg:grid-cols-[minmax(0,1.1fr)_minmax(300px,0.78fr)]"
+        >
           {/* Left Column: Intro & CTAs */}
           <div className="flex flex-col gap-5">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-500/25 bg-blue-500/10 px-3.5 py-1.5 text-xs font-medium text-blue-300 backdrop-blur-sm">
@@ -297,7 +304,7 @@ export function HeroSection() {
               </div>
             </div>
           </div>
-        </div>
+        </FadeContent>
       </div>
     </section>
   );

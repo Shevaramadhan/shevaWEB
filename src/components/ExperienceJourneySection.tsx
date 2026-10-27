@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import FadeContent from "./FadeContent";
 
 interface ExperienceEntry {
   year: string;
@@ -109,7 +110,7 @@ export function ExperienceJourneySection() {
         style={{ width: "min(1200px, 88%)", marginInline: "auto" }}
       >
         {/* Section Heading (01 · Experience & Journey) */}
-        <div className="mb-14">
+        <FadeContent blur={true} duration={850} threshold={0.12} className="mb-14">
           <p className="inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-sky-400">
             <span className="inline-flex h-6 w-8 items-center justify-center rounded-md border border-blue-400/30 bg-blue-500/10 text-[11px] font-bold text-blue-300">
               01
@@ -145,7 +146,7 @@ export function ExperienceJourneySection() {
               ? "Perjalanan melalui rekayasa perangkat lunak, pengembangan backend, dan arsitektur enterprise — membangun solusi digital yang terstruktur dan andal melalui studi kasus akademik maupun nyata."
               : "A journey through software engineering, backend development, and enterprise architecture — building structured, reliable digital solutions across academic and real-world case studies."}
           </p>
-        </div>
+        </FadeContent>
 
         {/* Timeline Container (.timeline with vertical gradient axis on the left) */}
         <div
@@ -282,7 +283,10 @@ export function EducationSection() {
       aria-labelledby="education-title"
       className="relative w-full py-20 sm:py-28"
     >
-      <div
+      <FadeContent
+        blur={true}
+        duration={850}
+        threshold={0.12}
         className="site-container mx-auto"
         style={{ width: "min(1200px, 88%)", marginInline: "auto" }}
       >
@@ -344,7 +348,7 @@ export function EducationSection() {
             </span>
           </div>
         </div>
-      </div>
+      </FadeContent>
     </section>
   );
 }

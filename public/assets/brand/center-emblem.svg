@@ -1,24 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="88" height="74" viewBox="0 0 120 100" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none">
   <defs>
-    <linearGradient id="srNeon" x1="10" y1="18" x2="110" y2="84" gradientUnits="userSpaceOnUse">
+    <linearGradient id="srNeon" x1="20" y1="48" x2="236" y2="204" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#FFFFFF" />
       <stop offset="70%" stop-color="#F0F9FF" />
       <stop offset="100%" stop-color="#BAE6FD" />
     </linearGradient>
   </defs>
-  <!-- Stylized Neon S -->
+  <!-- Bold Geometric S for ElectricLogo SDF Tracing -->
   <path
-    d="M 50 31 C 46 23, 35 21, 25 24 C 15 27, 14 39, 24 45 L 41 53 C 52 58, 51 72, 39 76 C 28 79, 18 76, 14 67"
+    d="M 110 78 C 102 58, 80 52, 58 56 C 34 60, 26 84, 46 102 L 90 124 C 116 138, 112 178, 82 192 C 58 202, 34 194, 24 172"
     stroke="url(#srNeon)"
-    stroke-width="6.5"
+    stroke-width="22"
     stroke-linecap="round"
     stroke-linejoin="round"
   />
-  <!-- Stylized Neon R -->
+  <!-- Bold Geometric R for ElectricLogo SDF Tracing -->
   <path
-    d="M 64 76 V 23 H 85 C 97 23, 104 30, 104 39.5 C 104 49, 97 55, 85 55 H 64 M 83 55 L 103 76"
+    d="M 146 194 V 56 H 192 C 218 56, 232 72, 232 94 C 232 116, 218 130, 192 130 H 146 M 188 130 L 230 194"
     stroke="url(#srNeon)"
-    stroke-width="6.5"
+    stroke-width="22"
     stroke-linecap="round"
     stroke-linejoin="round"
   />
