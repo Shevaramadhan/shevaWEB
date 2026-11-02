@@ -79,23 +79,29 @@ export function HeroSection() {
               {isId ? (
                 <>
                   <span className="block">Web &amp; Backend</span>
-                  <span className="block text-[#93c5fd]">Developer</span>
-                  <span className="block">&amp; Sistem Enterprise</span>
+                  <span className="block text-[#38bdf8]">Developer</span>
+                  <span className="block text-slate-100">
+                    &amp;{" "}
+                    <span className="text-[#a78bfa]">Sistem Enterprise</span>
+                  </span>
                 </>
               ) : (
                 <>
                   <span className="block">Web &amp; Backend</span>
-                  <span className="block text-[#93c5fd]">Developer</span>
-                  <span className="block">&amp; Enterprise Systems</span>
+                  <span className="block text-[#38bdf8]">Developer</span>
+                  <span className="block text-slate-100">
+                    &amp;{" "}
+                    <span className="text-[#a78bfa]">Enterprise Systems</span>
+                  </span>
                 </>
               )}
             </h1>
 
-            <p className="max-w-xl text-base leading-relaxed text-slate-300/80 sm:text-[1.08rem]">
+            <p className="max-w-xl text-base leading-relaxed text-slate-300/85 sm:text-[1.08rem]">
               {isId ? (
                 <>
                   Mahasiswa semester 5 Sistem Informasi di{" "}
-                  <span className="font-medium text-white">
+                  <span className="font-medium text-amber-300">
                     Universitas Andalas
                   </span>
                   . Fokus mengerjakan pengembangan aplikasi web, layanan backend,
@@ -104,7 +110,7 @@ export function HeroSection() {
               ) : (
                 <>
                   Fifth-semester Information Systems student at{" "}
-                  <span className="font-medium text-white">
+                  <span className="font-medium text-amber-300">
                     Universitas Andalas
                   </span>
                   , focusing on full-stack web applications, backend services,
@@ -113,20 +119,36 @@ export function HeroSection() {
               )}
             </p>
 
+            {/* Multi-Accent Domain Focus Pills */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+              <span className="inline-flex items-center gap-2 rounded-lg border border-sky-400/30 bg-sky-500/10 px-3 py-1 font-mono text-xs font-medium text-sky-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+                Full-Stack Web
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs font-medium text-emerald-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                Backend &amp; REST API
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-lg border border-violet-400/30 bg-violet-500/10 px-3 py-1 font-mono text-xs font-medium text-violet-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
+                Enterprise Architecture
+              </span>
+            </div>
+
             {/* CTA Buttons */}
             <div className="mt-2 flex flex-wrap items-center gap-3.5">
               {!showEmail ? (
                 <button
                   type="button"
                   onClick={() => setShowEmail(true)}
-                  className="inline-flex h-12 cursor-pointer items-center justify-center gap-2.5 rounded-xl bg-blue-600 px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-blue-500"
+                  className="inline-flex h-12 cursor-pointer items-center justify-center gap-2.5 rounded-xl bg-blue-600 px-6 text-sm font-semibold text-white shadow-[0_10px_28px_-6px_rgba(37,99,235,0.65)] transition-all duration-200 hover:bg-blue-500"
                 >
                   <Mail className="h-4 w-4" />
                   <span>{isId ? "Hubungi Saya" : "Contact"}</span>
                 </button>
               ) : (
-                <div className="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 bg-[#081226] px-3.5 text-sm text-slate-100">
-                  <Mail className="h-4 w-4 text-blue-400" />
+                <div className="inline-flex h-12 items-center gap-2 rounded-xl border border-emerald-400/35 bg-[#0a182e] px-3.5 text-sm text-slate-100">
+                  <Mail className="h-4 w-4 text-emerald-400" />
                   <a
                     href={`mailto:${email}`}
                     className="font-mono text-xs text-slate-100 underline-offset-4 hover:underline sm:text-sm"
@@ -150,7 +172,7 @@ export function HeroSection() {
 
               <a
                 href="#work"
-                className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/[0.03] px-6 text-sm font-medium text-slate-200 transition-colors duration-200 hover:border-white/25 hover:bg-white/[0.06] hover:text-white"
+                className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/15 bg-[#0c1832]/90 px-6 text-sm font-medium text-slate-200 transition-colors duration-200 hover:border-violet-400/45 hover:bg-[#122244] hover:text-white"
               >
                 <span>{isId ? "Lihat Perjalanan" : "View My Journey"}</span>
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -158,8 +180,8 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column: Pure Portrait Frame (No Cluttered Badges or Overlays) */}
-          <div className="flex items-center justify-center">
+          {/* Right Column: Pure Portrait Frame with Layered Echo Effect */}
+          <div className="flex items-center justify-center pr-3 pb-3">
             <div
               ref={cardRef}
               onPointerMove={handlePointerMove}
@@ -168,15 +190,14 @@ export function HeroSection() {
                 transform: `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
                 transition: "transform 200ms cubic-bezier(0.22, 1, 0.36, 1)",
               }}
-              className="group relative aspect-square w-full max-w-[400px] rounded-[28px] border border-white/12 bg-[#071126] p-2 shadow-[0_24px_70px_-15px_rgba(15,35,80,0.65)]"
+              className="echo-card echo-card--blue group relative aspect-square w-full max-w-[390px] rounded-[28px] p-2.5"
             >
-              <div className="relative h-full w-full overflow-hidden rounded-[22px] bg-[#050c1d]">
+              <div className="relative h-full w-full overflow-hidden rounded-[20px] bg-[#050c1d]">
                 <img
                   src="/assets/profile/sheva.png"
                   alt="Sheva Ramdhan"
                   className="h-full w-full scale-[1.15] object-cover object-[50%_42%] transition-transform duration-500 ease-out group-hover:scale-[1.19]"
                 />
-                {/* Soft subtle edge vignette only */}
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,transparent_48%,rgba(4,9,23,0.45)_100%)]"

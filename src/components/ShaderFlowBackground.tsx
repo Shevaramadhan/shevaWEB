@@ -64,7 +64,7 @@ export function ShaderFlowBackground() {
       ctx.fillStyle = grad1;
       ctx.fillRect(0, 0, width, height);
 
-      // Secondary Sky-Blue Flow Orb
+      // Secondary Teal-Emerald & Violet Flow Orb
       const orb2X = width * 0.25 + Math.cos(time * 0.8) * 110;
       const orb2Y = height * 0.65 + Math.sin(time * 1.2) * 75;
       const grad2 = ctx.createRadialGradient(
@@ -73,10 +73,10 @@ export function ShaderFlowBackground() {
         10,
         orb2X,
         orb2Y,
-        Math.max(width, height) * 0.4
+        Math.max(width, height) * 0.42
       );
-      grad2.addColorStop(0, "rgba(56, 189, 248, 0.16)");
-      grad2.addColorStop(0.55, "rgba(37, 99, 235, 0.06)");
+      grad2.addColorStop(0, "rgba(16, 185, 129, 0.12)");
+      grad2.addColorStop(0.5, "rgba(139, 92, 246, 0.08)");
       grad2.addColorStop(1, "rgba(3, 7, 18, 0)");
 
       ctx.fillStyle = grad2;

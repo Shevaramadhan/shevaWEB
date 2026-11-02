@@ -18,37 +18,79 @@ import {
   type SkillMarqueeItem,
 } from "@/data/skillsAssets";
 
+function getCategoryAccent(category?: string) {
+  switch (category) {
+    case "Backend":
+    case "Runtime":
+      return {
+        pill: "border-emerald-400/25 bg-[#0a1b24]/95 hover:border-emerald-400/60 hover:bg-[#0e2632]",
+        tag: "border-emerald-400/30 bg-emerald-500/12 text-emerald-300",
+      };
+    case "Database":
+      return {
+        pill: "border-amber-400/25 bg-[#191522]/95 hover:border-amber-400/60 hover:bg-[#241d2e]",
+        tag: "border-amber-400/30 bg-amber-500/12 text-amber-300",
+      };
+    case "Full-Stack":
+    case "State":
+    case "Design":
+      return {
+        pill: "border-violet-400/25 bg-[#12132e]/95 hover:border-violet-400/60 hover:bg-[#1a1b3d]",
+        tag: "border-violet-400/30 bg-violet-500/12 text-violet-300",
+      };
+    case "DevOps":
+    case "Systems":
+    case "Automation":
+      return {
+        pill: "border-cyan-400/25 bg-[#091a2b]/95 hover:border-cyan-400/60 hover:bg-[#0e253b]",
+        tag: "border-cyan-400/30 bg-cyan-500/12 text-cyan-300",
+      };
+    default:
+      return {
+        pill: "border-sky-400/25 bg-[#0b1730]/95 hover:border-sky-400/60 hover:bg-[#102142]",
+        tag: "border-sky-400/30 bg-sky-500/12 text-sky-300",
+      };
+  }
+}
+
 function buildLogoLoopItems(items: SkillMarqueeItem[]): LogoLoopItem[] {
-  return items.map((item) => ({
-    title: item.title,
-    ariaLabel: item.title,
-    node: (
-      <div className="group/pill inline-flex items-center gap-3 rounded-full border border-blue-500/20 bg-[#071024]/90 px-4 py-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.06)] transition-all duration-300 hover:border-sky-400/50 hover:bg-[#0b1938] hover:shadow-[0_0_24px_rgba(37,99,235,0.35)]">
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0e1b38] p-1">
-          <img
-            src={item.src}
-            alt={item.alt}
-            width={20}
-            height={20}
-            style={{
-              width: "20px",
-              height: "20px",
-              objectFit: "contain",
-              display: "block",
-            }}
-          />
-        </span>
-        <span className="text-sm font-semibold tracking-tight text-slate-100 group-hover/pill:text-white">
-          {item.title}
-        </span>
-        {item.category && (
-          <span className="rounded-full border border-blue-400/20 bg-blue-500/10 px-2 py-0.5 font-mono text-[10px] font-medium text-sky-300/90">
-            {item.category}
+  return items.map((item) => {
+    const accent = getCategoryAccent(item.category);
+    return {
+      title: item.title,
+      ariaLabel: item.title,
+      node: (
+        <div
+          className={`group/pill inline-flex items-center gap-3 rounded-full border px-4 py-2.5 shadow-[0_10px_26px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-300 ${accent.pill}`}
+        >
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0e1b38] p-1">
+            <img
+              src={item.src}
+              alt={item.alt}
+              width={20}
+              height={20}
+              style={{
+                width: "20px",
+                height: "20px",
+                objectFit: "contain",
+                display: "block",
+              }}
+            />
           </span>
-        )}
-      </div>
-    ),
-  }));
+          <span className="text-sm font-semibold tracking-tight text-slate-100 group-hover/pill:text-white">
+            {item.title}
+          </span>
+          {item.category && (
+            <span
+              className={`rounded-full border px-2 py-0.5 font-mono text-[10px] font-medium ${accent.tag}`}
+            >
+              {item.category}
+            </span>
+          )}
+        </div>
+      ),
+    };
+  });
 }
 
 const LOOP_ITEMS_ROW_1 = buildLogoLoopItems(SKILL_MARQUEE_ROW_1);

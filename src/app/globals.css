@@ -432,4 +432,126 @@ body {
   padding: 0 1em;
 }
 
+/* ==========================================================================
+   Elevated Multi-Accent Echo Card System (.echo-card)
+   ========================================================================== */
+.echo-card {
+  --echo-solid: #38bdf8;
+  --echo-border: rgba(56, 189, 248, 0.42);
+  --echo-border-outer: rgba(56, 189, 248, 0.18);
+  --echo-soft: rgba(56, 189, 248, 0.13);
+  --echo-glow: rgba(56, 189, 248, 0.22);
+
+  position: relative;
+  isolation: isolate;
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(380px circle at 92% 0%, var(--echo-soft), transparent 65%),
+    linear-gradient(155deg, rgba(20, 33, 64, 0.95) 0%, rgba(12, 21, 44, 0.96) 55%, rgba(8, 15, 34, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  box-shadow:
+    0 18px 42px -14px rgba(0, 0, 0, 0.72),
+    0 0 28px -10px var(--echo-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* First Echo Ghost Layer */
+.echo-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  border: 1px solid var(--echo-border);
+  background: linear-gradient(160deg, var(--echo-soft), rgba(7, 14, 30, 0.35));
+  transform: translate(7px, 7px);
+  opacity: 0.78;
+  pointer-events: none;
+  transition:
+    transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.38s ease,
+    border-color 0.38s ease;
+}
+
+/* Second Outer Echo Ghost Layer */
+.echo-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border-radius: inherit;
+  border: 1px dashed var(--echo-border-outer);
+  transform: translate(14px, 14px);
+  opacity: 0.55;
+  pointer-events: none;
+  transition:
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.42s ease;
+}
+
+.echo-card:hover {
+  transform: translate(-3px, -3px);
+  border-color: var(--echo-border);
+  box-shadow:
+    0 24px 54px -12px rgba(0, 0, 0, 0.82),
+    0 0 38px -6px var(--echo-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.echo-card:hover::before {
+  transform: translate(11px, 11px);
+  opacity: 1;
+}
+
+.echo-card:hover::after {
+  transform: translate(21px, 21px);
+  opacity: 0.85;
+}
+
+/* Color Accent Variants */
+.echo-card--blue {
+  --echo-solid: #38bdf8;
+  --echo-border: rgba(56, 189, 248, 0.45);
+  --echo-border-outer: rgba(56, 189, 248, 0.22);
+  --echo-soft: rgba(56, 189, 248, 0.14);
+  --echo-glow: rgba(56, 189, 248, 0.25);
+}
+
+.echo-card--emerald {
+  --echo-solid: #10b981;
+  --echo-border: rgba(16, 185, 129, 0.46);
+  --echo-border-outer: rgba(52, 211, 153, 0.24);
+  --echo-soft: rgba(16, 185, 129, 0.14);
+  --echo-glow: rgba(16, 185, 129, 0.24);
+}
+
+.echo-card--violet {
+  --echo-solid: #8b5cf6;
+  --echo-border: rgba(139, 92, 246, 0.48);
+  --echo-border-outer: rgba(167, 139, 250, 0.24);
+  --echo-soft: rgba(139, 92, 246, 0.15);
+  --echo-glow: rgba(139, 92, 246, 0.26);
+}
+
+.echo-card--amber {
+  --echo-solid: #f59e0b;
+  --echo-border: rgba(245, 158, 11, 0.45);
+  --echo-border-outer: rgba(251, 191, 36, 0.22);
+  --echo-soft: rgba(245, 158, 11, 0.13);
+  --echo-glow: rgba(245, 158, 11, 0.22);
+}
+
+.echo-card--cyan {
+  --echo-solid: #06b6d4;
+  --echo-border: rgba(6, 182, 212, 0.46);
+  --echo-border-outer: rgba(34, 211, 238, 0.22);
+  --echo-soft: rgba(6, 182, 212, 0.14);
+  --echo-glow: rgba(6, 182, 212, 0.24);
+}
+
+
 

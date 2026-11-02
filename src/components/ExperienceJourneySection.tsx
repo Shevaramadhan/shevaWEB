@@ -3,9 +3,15 @@
 import { useLanguage } from "@/context/LanguageContext";
 import FadeContent from "./FadeContent";
 
+type EchoVariant = "emerald" | "violet" | "amber" | "blue";
+
 interface ExperienceEntry {
   year: string;
   isCurrent?: boolean;
+  variant: EchoVariant;
+  dotColor: string;
+  badgeClass: string;
+  tagClass: string;
   title: string;
   company: string;
   type: string;
@@ -19,6 +25,12 @@ const EXPERIENCE_ITEMS_EN: ExperienceEntry[] = [
   {
     year: "2026 - Present",
     isCurrent: true,
+    variant: "emerald",
+    dotColor: "#10b981",
+    badgeClass:
+      "border-emerald-400/35 bg-emerald-500/12 text-emerald-300",
+    tagClass:
+      "border-emerald-400/25 bg-emerald-500/10 text-emerald-200",
     title: "Web & Backend Developer",
     company: "Independent & Academic Software Engineering Projects",
     type: "Web & Backend",
@@ -31,6 +43,12 @@ const EXPERIENCE_ITEMS_EN: ExperienceEntry[] = [
   {
     year: "2025 - 2026",
     isCurrent: false,
+    variant: "violet",
+    dotColor: "#8b5cf6",
+    badgeClass:
+      "border-violet-400/35 bg-violet-500/12 text-violet-300",
+    tagClass:
+      "border-violet-400/25 bg-violet-500/10 text-violet-200",
     title: "Enterprise Architecture & System Analyst",
     company: "Department of Information Systems — Universitas Andalas",
     type: "Enterprise Systems",
@@ -43,6 +61,12 @@ const EXPERIENCE_ITEMS_EN: ExperienceEntry[] = [
   {
     year: "2024 - 2025",
     isCurrent: false,
+    variant: "amber",
+    dotColor: "#f59e0b",
+    badgeClass:
+      "border-amber-400/35 bg-amber-500/12 text-amber-300",
+    tagClass:
+      "border-amber-400/25 bg-amber-500/10 text-amber-200",
     title: "Backend & Database Programming",
     company: "Faculty of Information Technology (FTI UNAND)",
     type: "Academic Foundation",
@@ -58,6 +82,12 @@ const EXPERIENCE_ITEMS_ID: ExperienceEntry[] = [
   {
     year: "2026 - Sekarang",
     isCurrent: true,
+    variant: "emerald",
+    dotColor: "#10b981",
+    badgeClass:
+      "border-emerald-400/35 bg-emerald-500/12 text-emerald-300",
+    tagClass:
+      "border-emerald-400/25 bg-emerald-500/10 text-emerald-200",
     title: "Web & Backend Developer",
     company: "Proyek Rekayasa Perangkat Lunak Akademik & Mandiri",
     type: "Web & Backend",
@@ -70,6 +100,12 @@ const EXPERIENCE_ITEMS_ID: ExperienceEntry[] = [
   {
     year: "2025 - 2026",
     isCurrent: false,
+    variant: "violet",
+    dotColor: "#8b5cf6",
+    badgeClass:
+      "border-violet-400/35 bg-violet-500/12 text-violet-300",
+    tagClass:
+      "border-violet-400/25 bg-violet-500/10 text-violet-200",
     title: "Enterprise Architecture & System Analyst",
     company: "Departemen Sistem Informasi — Universitas Andalas",
     type: "Sistem Enterprise",
@@ -82,6 +118,12 @@ const EXPERIENCE_ITEMS_ID: ExperienceEntry[] = [
   {
     year: "2024 - 2025",
     isCurrent: false,
+    variant: "amber",
+    dotColor: "#f59e0b",
+    badgeClass:
+      "border-amber-400/35 bg-amber-500/12 text-amber-300",
+    tagClass:
+      "border-amber-400/25 bg-amber-500/10 text-amber-200",
     title: "Pemrograman Backend & Basis Data",
     company: "Fakultas Teknologi Informasi (FTI UNAND)",
     type: "Fondasi Akademik",
@@ -109,7 +151,7 @@ export function ExperienceJourneySection() {
         style={{ width: "min(1200px, 88%)", marginInline: "auto" }}
       >
         <FadeContent blur={true} duration={850} threshold={0.12} className="mb-14">
-          <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-emerald-400">
             01 / {isId ? "Pengalaman & Perjalanan" : "Experience & Journey"}
           </p>
 
@@ -121,20 +163,23 @@ export function ExperienceJourneySection() {
           </h2>
         </FadeContent>
 
-        {/* Clean Vertical Timeline */}
+        {/* Vertical Timeline with Multi-Accent Echo Cards */}
         <div
-          className="relative grid gap-6 pl-8 sm:pl-10"
+          className="relative grid gap-9 pr-4 pb-4 pl-8 sm:pl-11"
           style={{ position: "relative" }}
         >
           <span
             aria-hidden="true"
             style={{
               position: "absolute",
-              top: "18px",
-              bottom: "18px",
+              top: "20px",
+              bottom: "20px",
               left: "8px",
-              width: "1px",
-              backgroundColor: "rgba(148, 163, 184, 0.22)",
+              width: "2px",
+              borderRadius: "2px",
+              background:
+                "linear-gradient(180deg, #10b981 0%, #8b5cf6 52%, #f59e0b 100%)",
+              opacity: 0.65,
             }}
           />
 
@@ -144,22 +189,25 @@ export function ExperienceJourneySection() {
                 aria-hidden="true"
                 style={{
                   position: "absolute",
-                  left: "-29px",
-                  top: "26px",
-                  width: "11px",
-                  height: "11px",
+                  left: "-30px",
+                  top: "28px",
+                  width: "13px",
+                  height: "13px",
                   borderRadius: "9999px",
-                  background: item.isCurrent ? "#3b82f6" : "#334155",
+                  background: item.dotColor,
+                  boxShadow: `0 0 14px ${item.dotColor}`,
                   border: "2px solid #040917",
                 }}
               />
 
-              <div className="rounded-2xl border border-white/10 bg-[#060f24]/80 p-6 transition-colors duration-200 hover:border-white/20 sm:p-7">
+              <div className={`echo-card echo-card--${item.variant} p-6 sm:p-7`}>
                 <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                  <span className="font-mono text-xs font-medium text-blue-300">
+                  <span
+                    className={`rounded-md border px-2.5 py-0.5 font-mono text-xs font-semibold ${item.badgeClass}`}
+                  >
                     {item.year}
                   </span>
-                  <span className="font-mono text-xs text-slate-400">
+                  <span className="font-mono text-xs text-slate-300">
                     {item.type} · {item.location}
                   </span>
                 </div>
@@ -171,7 +219,7 @@ export function ExperienceJourneySection() {
                   {item.company}
                 </p>
 
-                <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-300/80 sm:text-[0.96rem]">
+                <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-200/85 sm:text-[0.96rem]">
                   {item.description}
                 </p>
 
@@ -179,7 +227,7 @@ export function ExperienceJourneySection() {
                   {item.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 font-mono text-[11px] text-slate-300"
+                      className={`rounded-md border px-2.5 py-1 font-mono text-[11px] font-medium ${item.tagClass}`}
                     >
                       {tag}
                     </span>
@@ -212,7 +260,7 @@ export function EducationSection() {
         style={{ width: "min(1200px, 88%)", marginInline: "auto" }}
       >
         <div className="mb-10">
-          <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-amber-400">
             04 / {isId ? "Pendidikan" : "Education"}
           </p>
           <h2
@@ -223,31 +271,33 @@ export function EducationSection() {
           </h2>
         </div>
 
-        <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-white/10 bg-[#060f24]/80 p-7 sm:flex-row sm:items-center sm:p-9">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-slate-400">
-              {isId
-                ? "Sarjana (S1) · Fakultas Teknologi Informasi"
-                : "Bachelor of Information Systems · Faculty of Information Technology"}
-            </p>
-            <h3 className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-              {isId ? "Sistem Informasi" : "Information Systems"}
-            </h3>
-            <p className="mt-2 text-sm text-slate-300/80 sm:text-base">
-              {isId
-                ? "Fokus: Pengembangan Web, Rekayasa Backend & Arsitektur Enterprise"
-                : "Focus: Web Development, Backend Engineering & Enterprise Architecture"}
-            </p>
-          </div>
+        <div className="pr-4 pb-4">
+          <div className="echo-card echo-card--amber flex flex-col items-start justify-between gap-6 p-7 sm:flex-row sm:items-center sm:p-9">
+            <div>
+              <p className="font-mono text-xs font-medium uppercase tracking-widest text-amber-300">
+                {isId
+                  ? "Sarjana (S1) · Fakultas Teknologi Informasi"
+                  : "Bachelor of Information Systems · Faculty of Information Technology"}
+              </p>
+              <h3 className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                {isId ? "Sistem Informasi" : "Information Systems"}
+              </h3>
+              <p className="mt-2 text-sm text-slate-200/85 sm:text-base">
+                {isId
+                  ? "Fokus: Pengembangan Web, Rekayasa Backend & Arsitektur Enterprise"
+                  : "Focus: Web Development, Backend Engineering & Enterprise Architecture"}
+              </p>
+            </div>
 
-          <div className="flex items-center gap-4 self-start sm:self-center">
-            <div className="rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 text-left sm:text-right">
-              <p className="font-mono text-xs uppercase tracking-wider text-slate-400">
-                {isId ? "Status" : "Current"}
-              </p>
-              <p className="mt-0.5 font-mono text-lg font-bold text-white">
-                Semester 5
-              </p>
+            <div className="flex items-center gap-4 self-start sm:self-center">
+              <div className="rounded-xl border border-amber-400/35 bg-amber-500/10 px-5 py-3 text-left sm:text-right">
+                <p className="font-mono text-xs uppercase tracking-wider text-amber-300">
+                  {isId ? "Status" : "Current"}
+                </p>
+                <p className="mt-0.5 font-mono text-lg font-bold text-white">
+                  Semester 5
+                </p>
+              </div>
             </div>
           </div>
         </div>
