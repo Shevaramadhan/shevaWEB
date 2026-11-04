@@ -34,177 +34,21 @@ import {
 import { useLanguage } from "@/context/LanguageContext";
 import { SkillsSection } from "./SkillsSection";
 
+import {
+  CMS_STORAGE_KEY,
+  INITIAL_CMS_DATA,
+  type AchievementItem,
+  type GalleryItem,
+  type PortfolioCMSData,
+  type PortfolioProject,
+} from "@/lib/portfolio-store";
+
+export type { PortfolioProject };
+
 const MotionContext = createContext(true);
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-export interface PortfolioProject {
-  id: string;
-  title: string;
-  category: string;
-  year: string;
-  role: string;
-  type: "fullstack" | "backend" | "enterprise" | "database";
-  architecture: string;
-  stack: string[];
-  descriptionId: string;
-  descriptionEn: string;
-  highlightsId: string[];
-  highlightsEn: string[];
-  repoUrl?: string;
-}
-
-const ARCHIVE_PROJECTS: PortfolioProject[] = [
-  {
-    id: "unand-enterprise-portal",
-    title: "UNAND ENTERPRISE PORTAL",
-    category: "Full-Stack Web",
-    year: "2026",
-    role: "Backend & Web Developer",
-    type: "fullstack",
-    architecture: "NEXT.JS APP ROUTER → REST API → POSTGRESQL",
-    stack: ["Next.js", "TypeScript", "Node.js", "PostgreSQL"],
-    descriptionId:
-      "Platform web terstruktur untuk mengelola alur kerja akademik, kontrol akses berbasis peran (RBAC), serta pelaporan data relasional secara terpusat.",
-    descriptionEn:
-      "Structured web platform built to manage academic workflows, role-based access control (RBAC), and centralized relational data reporting.",
-    highlightsId: [
-      "Autentikasi & otorisasi multi-peran (RBAC)",
-      "Skema database relasional ternormalisasi",
-      "Dashboard pelaporan operasional real-time",
-    ],
-    highlightsEn: [
-      "Multi-role authentication & RBAC authorization",
-      "Normalized relational database schema",
-      "Real-time operational reporting dashboard",
-    ],
-    repoUrl: "https://github.com/Shevaramadhan",
-  },
-  {
-    id: "restful-service-arch",
-    title: "MODULAR REST API ENGINE",
-    category: "Backend API",
-    year: "2026",
-    role: "Backend Engineer",
-    type: "backend",
-    architecture: "CLIENT → JWT AUTH & VALIDATOR → EXPRESS / MONGODB",
-    stack: ["Node.js", "Express.js", "MongoDB", "JWT Auth"],
-    descriptionId:
-      "Arsitektur layanan backend modular dengan autentikasi token JWT, validasi payload berlapis, rate-limiting, dan pengindeksan kueri database.",
-    descriptionEn:
-      "Modular backend service architecture featuring JWT token authentication, layered payload validation, rate-limiting, and database indexing.",
-    highlightsId: [
-      "Struktur Controller–Service–Repository",
-      "Middleware validasi skema & penanganan error terpusat",
-      "Optimasi indeks koleksi untuk respons latensi rendah",
-    ],
-    highlightsEn: [
-      "Clean Controller–Service–Repository pattern",
-      "Schema validation & centralized error-handling middleware",
-      "Collection index optimization for low-latency responses",
-    ],
-    repoUrl: "https://github.com/Shevaramadhan",
-  },
-  {
-    id: "enterprise-inventory-system",
-    title: "ENTERPRISE INVENTORY & ERP",
-    category: "Enterprise Arch",
-    year: "2025",
-    role: "System Analyst & Developer",
-    type: "enterprise",
-    architecture: "BPMN / UML BLUEPRINT → NORMALIZED SQL → WEB ERP",
-    stack: ["Enterprise Arch", "BPMN / UML", "SQL", "TypeScript"],
-    descriptionId:
-      "Studi kasus Sistem Informasi yang memadukan pemodelan proses bisnis BPMN & UML, perancangan ERD relasional, serta implementasi modul inventaris.",
-    descriptionEn:
-      "Information Systems case study combining BPMN & UML business process modeling, relational ERD design, and inventory module implementation.",
-    highlightsId: [
-      "Pemetaan proses bisnis As-Is & To-Be dengan BPMN 2.0",
-      "Perancangan Use Case, Activity, & Sequence Diagram",
-      "Sinkronisasi stok otomatis & histori audit transaksi",
-    ],
-    highlightsEn: [
-      "As-Is & To-Be business process mapping with BPMN 2.0",
-      "Use Case, Activity, & Sequence Diagram specifications",
-      "Automated stock synchronization & transaction audit trail",
-    ],
-    repoUrl: "https://github.com/Shevaramadhan",
-  },
-  {
-    id: "campus-workflow-hub",
-    title: "CAMPUS WORKFLOW & REGISTRY",
-    category: "Full-Stack Web",
-    year: "2025",
-    role: "Full-Stack Developer",
-    type: "fullstack",
-    architecture: "REACT CLIENT → VERIFICATION API → RELATIONAL DB",
-    stack: ["React", "Next.js", "Node.js", "SQL"],
-    descriptionId:
-      "Sistem registrasi kegiatan lintas fakultas dan verifikasi kehadiran peserta dengan antrean konkurensi aman.",
-    descriptionEn:
-      "Cross-faculty event registration and participant attendance verification system with concurrency-safe quota checks.",
-    highlightsId: [
-      "Validasi kuota peserta secara atomik",
-      "Verifikasi kehadiran cepat berbasis tiket",
-      "Ekspor laporan peserta terstruktur",
-    ],
-    highlightsEn: [
-      "Atomic participant quota validation",
-      "Fast ticket-based attendance verification",
-      "Structured participant report exports",
-    ],
-    repoUrl: "https://github.com/Shevaramadhan",
-  },
-  {
-    id: "golang-microservice-core",
-    title: "GO CONCURRENT WORKER API",
-    category: "Backend API",
-    year: "2026",
-    role: "Backend Developer",
-    type: "backend",
-    architecture: "HTTP ROUTER → GOROUTINE WORKER POOL → POSTGRESQL",
-    stack: ["Golang", "PostgreSQL", "Docker", "REST API"],
-    descriptionId:
-      "Eksperimen layanan backend menggunakan Go (Golang) dan Docker untuk pemrosesan antrean tugas secara konkuren dan koneksi database efisien.",
-    descriptionEn:
-      "Backend service experiment built with Go (Golang) and Docker for concurrent task queue processing and pooled database connections.",
-    highlightsId: [
-      "Worker pool konkurensi menggunakan Goroutines & Channels",
-      "Containerization layanan dengan Docker",
-      "Connection pooling PostgreSQL",
-    ],
-    highlightsEn: [
-      "Concurrent worker pool via Goroutines & Channels",
-      "Service containerization with Docker",
-      "PostgreSQL connection pooling",
-    ],
-    repoUrl: "https://github.com/Shevaramadhan",
-  },
-  {
-    id: "relational-analytics-schema",
-    title: "ACADEMIC DATA WAREHOUSE",
-    category: "Database",
-    year: "2025",
-    role: "Database Designer",
-    type: "database",
-    architecture: "OLTP SOURCES → NORMALIZED 3NF SCHEMA → SQL VIEWS",
-    stack: ["SQL", "PostgreSQL", "ERD", "Data Modeling"],
-    descriptionId:
-      "Perancangan skema basis data relasional 3NF dan kueri analitik agregasi untuk pelaporan akademik dan evaluasi kinerja.",
-    descriptionEn:
-      "3NF relational database schema design and analytical aggregation queries for academic reporting and performance evaluation.",
-    highlightsId: [
-      "Normalisasi tabel hingga 3NF untuk integritas data",
-      "Stored procedures & SQL views untuk laporan cepat",
-      "Indeks komposit pada kolom pencarian utama",
-    ],
-    highlightsEn: [
-      "3NF table normalization for strict data integrity",
-      "Stored procedures & SQL views for fast reporting",
-      "Composite indexing on primary lookup columns",
-    ],
-    repoUrl: "https://github.com/Shevaramadhan",
-  },
-];
+const ARCHIVE_PROJECTS: PortfolioProject[] = INITIAL_CMS_DATA.projects;
 
 const CATEGORIES = [
   "Semua",
@@ -315,6 +159,7 @@ function Header({
     ? [
         ["portfolio", "Karya"],
         ["skills", "Skills"],
+        ["awards", "Prestasi & Galeri"],
         ["about", "Tentang"],
         ["experience", "Perjalanan"],
         ["contact", "Kontak"],
@@ -322,6 +167,7 @@ function Header({
     : [
         ["portfolio", "Work"],
         ["skills", "Skills"],
+        ["awards", "Recognition"],
         ["about", "About"],
         ["experience", "Journey"],
         ["contact", "Contact"],
@@ -692,8 +538,10 @@ function ProjectCard({
 }
 
 function Portfolio({
+  projects,
   onSelectProject,
 }: {
+  projects: PortfolioProject[];
   onSelectProject: (p: PortfolioProject) => void;
 }) {
   const { lang } = useLanguage();
@@ -702,7 +550,7 @@ function Portfolio({
   const [query, setQuery] = useState("");
   const [expanded, setExpanded] = useState(false);
 
-  const results = ARCHIVE_PROJECTS.filter(
+  const results = projects.filter(
     (p) =>
       (category === "Semua" || p.category === category) &&
       `${p.title} ${p.category} ${p.role} ${p.stack.join(" ")}`
@@ -713,7 +561,7 @@ function Portfolio({
   const displayedProjects =
     expanded || category !== "Semua" || query
       ? results
-      : ARCHIVE_PROJECTS.slice(0, 3);
+      : projects.slice(0, 3);
 
   return (
     <section id="portfolio" className="portfolio section-wrap">
@@ -743,8 +591,8 @@ function Portfolio({
               ? "KARYA PILIHAN (3)"
               : "FEATURED (3)"
             : isId
-              ? `SEMUA KARYA (${ARCHIVE_PROJECTS.length})`
-              : `ALL PROJECTS (${ARCHIVE_PROJECTS.length})`}
+              ? `SEMUA KARYA (${projects.length})`
+              : `ALL PROJECTS (${projects.length})`}
           <ArrowRight size={20} />
         </button>
       </Reveal>
@@ -1471,11 +1319,369 @@ function ProjectDialog({
   );
 }
 
+interface LightboxItem {
+  title: string;
+  subtitle: string;
+  badge: string;
+  yearOrDate: string;
+  description: string;
+  imageUrl?: string;
+  proofUrl?: string;
+}
+
+function RecognitionAndGallery({
+  achievements,
+  gallery,
+  onSelectLightbox,
+}: {
+  achievements: AchievementItem[];
+  gallery: GalleryItem[];
+  onSelectLightbox: (item: LightboxItem) => void;
+}) {
+  const { lang } = useLanguage();
+  const isId = lang === "id";
+  const [achCategory, setAchCategory] = useState<string>("Semua");
+  const [galCategory, setGalCategory] = useState<string>("Semua");
+
+  const laurelPath =
+    "M48 94C8 68 9 30 35 5M22 61C8 60 3 49 3 44c12 0 19 6 19 17zm-5-19C5 35 6 23 8 19c11 5 13 14 9 23zm7-20C15 12 20 3 24 0c7 8 6 16 0 22zM31 79C17 79 8 70 7 64c13-2 22 4 24 15zm-3-18c-5-10-2-19 7-25 5 11 1 20-7 25zm10 24c-6-11-4-20 5-27 6 9 5 20-5 27z";
+
+  const achCategories = [
+    "Semua",
+    "Prestasi & Lomba",
+    "Sertifikasi",
+    "Akademik",
+  ];
+  const galCategories = [
+    "Semua",
+    "Kompetisi",
+    "Proyek & Riset",
+    "Kampus & Organisasi",
+  ];
+
+  const filteredAchievements = achievements.filter(
+    (a) => achCategory === "Semua" || a.category === achCategory
+  );
+  const filteredGallery = gallery.filter(
+    (g) => galCategory === "Semua" || g.category === galCategory
+  );
+
+  return (
+    <section id="awards" className="recognition section-wrap">
+      {/* Left Intro: Laurel Wreath & Recognition Summary (prompt.md) */}
+      <Reveal className="recognition-intro">
+        <span className="eyebrow">03 / RECOGNITION &amp; GALLERY</span>
+        <h2 className="display">
+          {isId ? (
+            <>
+              PRESTASI, LOMBA
+              <br />
+              <span className="accent">&amp; SERTIFIKASI.</span>
+            </>
+          ) : (
+            <>
+              THE WORK.
+              <br />
+              <span className="accent">THE RECOGNITION.</span>
+            </>
+          )}
+        </h2>
+
+        <div className="award-total">
+          <svg viewBox="0 0 60 100" aria-hidden="true">
+            <path d={laurelPath} fill="currentColor" />
+          </svg>
+          <span className="display">
+            {String(achievements.length).padStart(2, "0")}
+            <span>+</span>
+          </span>
+          <svg viewBox="0 0 60 100" aria-hidden="true">
+            <g transform="translate(60 0) scale(-1 1)">
+              <path d={laurelPath} fill="currentColor" />
+            </g>
+          </svg>
+          <span className="award-total-label">
+            {isId ? "PRESTASI & SERTIFIKASI" : "RECOGNITION & CERTS"}
+          </span>
+        </div>
+
+        <p>
+          {isId
+            ? "Dokumentasi pencapaian lomba, penghargaan akademik Sistem Informasi, serta sertifikasi kompetensi teknis yang dapat diperbarui secara dinamis."
+            : "Documented competition milestones, Information Systems academic honors, and technical certifications dynamically managed via CMS."}
+        </p>
+
+        <div className="mt-5 flex flex-wrap items-center gap-4">
+          {achievements[0] && (
+            <button
+              type="button"
+              className="text-link"
+              onClick={() =>
+                onSelectLightbox({
+                  title: achievements[0].title,
+                  subtitle: achievements[0].event,
+                  badge: achievements[0].rank,
+                  yearOrDate: achievements[0].year,
+                  description: isId
+                    ? achievements[0].descriptionId
+                    : achievements[0].descriptionEn,
+                  imageUrl: achievements[0].certificateImage,
+                  proofUrl: achievements[0].proofUrl,
+                })
+              }
+            >
+              {isId ? "LIHAT DETAIL PENCAPAIAN" : "INSPECT RECOGNITION"}
+              <ArrowUpRight size={17} />
+            </button>
+          )}
+          <a
+            href="/admin"
+            className="outline-button"
+            style={{ minHeight: "38px", padding: "8px 14px", fontSize: "10px" }}
+          >
+            {isId ? "KELOLA DI PANEL ADMIN" : "MANAGE IN ADMIN"}
+            <ArrowUpRight size={14} />
+          </a>
+        </div>
+      </Reveal>
+
+      {/* Right List: Filterable Achievements & Awards */}
+      <div className="recognition-list">
+        <div className="recognition-list-head">
+          <span>
+            {isId
+              ? "DAFTAR PRESTASI, LOMBA & SERTIFIKASI"
+              : "SELECTED RECOGNITION & CERTIFICATIONS"}
+          </span>
+          <span>2024 – 2026</span>
+        </div>
+
+        <div className="mb-4 flex flex-wrap gap-2">
+          {achCategories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setAchCategory(cat)}
+              className={`border px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition ${
+                achCategory === cat
+                  ? "border-[#3b82f6] bg-[#2563eb] text-white"
+                  : "border-[#1e2d4a] bg-[#0a101d] text-[#94a0b4] hover:border-[#3b82f6] hover:text-white"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <ol>
+          {filteredAchievements.map((award, i) => (
+            <li key={award.id}>
+              <button
+                type="button"
+                className="recognition-row"
+                onClick={() =>
+                  onSelectLightbox({
+                    title: award.title,
+                    subtitle: award.event,
+                    badge: `${award.category} · ${award.rank}`,
+                    yearOrDate: award.year,
+                    description: isId
+                      ? award.descriptionId
+                      : award.descriptionEn,
+                    imageUrl: award.certificateImage,
+                    proofUrl: award.proofUrl,
+                  })
+                }
+              >
+                <span className="award-index">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3>{award.title}</h3>
+                  <p>{award.event}</p>
+                </div>
+                <span className="award-rank-badge">{award.rank}</span>
+                <span className="award-year display">{award.year}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      {/* Bottom Visual Gallery: Dokumentasi Lomba, Sertifikat & Kegiatan */}
+      <div className="gallery-subsection">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="eyebrow accent">
+              VISUAL ARCHIVE // DOKUMENTASI &amp; GALERI
+            </span>
+            <h3 className="display mt-2 text-2xl tracking-tight text-[#f2efeb] sm:text-4xl">
+              {isId
+                ? "GALERI KEGIATAN, LOMBA & DOKUMENTASI SISTEM."
+                : "COMPETITIONS, MOMENTS & SYSTEM DOCUMENTATION."}
+            </h3>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {galCategories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setGalCategory(cat)}
+                className={`border px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition ${
+                  galCategory === cat
+                    ? "border-[#3b82f6] bg-[#2563eb] text-white"
+                    : "border-[#1e2d4a] bg-[#0a101d] text-[#94a0b4] hover:border-[#3b82f6] hover:text-white"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="gallery-grid">
+          {filteredGallery.map((item, idx) => (
+            <button
+              key={item.id}
+              type="button"
+              className="gallery-card"
+              onClick={() =>
+                onSelectLightbox({
+                  title: item.title,
+                  subtitle: item.location,
+                  badge: item.category,
+                  yearOrDate: item.date,
+                  description: isId ? item.captionId : item.captionEn,
+                  imageUrl: item.imageUrl,
+                })
+              }
+            >
+              <div className="gallery-thumb">
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  loading="lazy"
+                />
+                <span className="project-type">
+                  FIG. {String(idx + 1).padStart(2, "0")} · {item.category}
+                </span>
+              </div>
+              <div className="gallery-meta">
+                <div className="flex items-center justify-between text-[9.5px] font-semibold uppercase tracking-wider text-[#60a5fa]">
+                  <span>{item.location}</span>
+                  <span>{item.date}</span>
+                </div>
+                <h4 className="text-sm font-bold uppercase tracking-tight text-[#f2efeb]">
+                  {item.title}
+                </h4>
+                <p className="line-clamp-2 text-xs text-[#94a0b4]">
+                  {isId ? item.captionId : item.captionEn}
+                </p>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LightboxDialog({
+  item,
+  onClose,
+}: {
+  item: LightboxItem;
+  onClose: () => void;
+}) {
+  const enabled = useContext(MotionContext);
+
+  useEffect(() => {
+    const oldOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = oldOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      className="dialog-backdrop"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <motion.div
+        className="project-dialog"
+        role="dialog"
+        aria-modal="true"
+        initial={enabled ? { y: 40, scale: 0.97 } : false}
+        animate={{ y: 0, scale: 1 }}
+        exit={{ y: 20, opacity: 0 }}
+        transition={{ duration: 0.32, ease: EASE }}
+      >
+        <div className="dialog-heading">
+          <span className="eyebrow">
+            {item.badge} / {item.yearOrDate}
+          </span>
+          <button
+            type="button"
+            onClick={onClose}
+            className="icon-button"
+            aria-label="Tutup pratinjau"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {item.imageUrl && (
+          <div className="flex max-h-[62vh] items-center justify-center border-b border-[#1c2536] bg-[#060911] p-4">
+            <img
+              src={item.imageUrl}
+              alt={item.title}
+              className="max-h-[56vh] w-auto object-contain"
+            />
+          </div>
+        )}
+
+        <div className="dialog-description">
+          <div>
+            <h2 className="display">{item.title}</h2>
+            <span className="accent">{item.subtitle}</span>
+            <p>{item.description}</p>
+          </div>
+          {item.proofUrl && (
+            <a
+              className="outline-button"
+              href={item.proofUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Bukti / Sertifikat <ExternalLink size={15} />
+            </a>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export function EditorialPortfolio() {
   const reduced = useReducedMotion();
   const [motionOn, setMotionOn] = useState(true);
+  const [cmsData, setCmsData] = useState<PortfolioCMSData>(INITIAL_CMS_DATA);
   const [selectedProject, setSelectedProject] =
     useState<PortfolioProject | null>(null);
+  const [selectedLightbox, setSelectedLightbox] =
+    useState<LightboxItem | null>(null);
 
   useEffect(() => {
     try {
@@ -1484,6 +1690,52 @@ export function EditorialPortfolio() {
     } catch {
       // ignore storage errors
     }
+
+    const loadCms = async () => {
+      let localOverride: PortfolioCMSData | null = null;
+      try {
+        const rawLocal = localStorage.getItem(CMS_STORAGE_KEY);
+        if (rawLocal) {
+          localOverride = JSON.parse(rawLocal) as PortfolioCMSData;
+          setCmsData(localOverride);
+        }
+      } catch {
+        // ignore local parse error
+      }
+
+      try {
+        const res = await fetch("/api/cms", { cache: "no-store" });
+        if (res.ok) {
+          const json = (await res.json()) as {
+            ok: boolean;
+            data?: PortfolioCMSData;
+          };
+          if (json.ok && json.data) {
+            const serverTime = Date.parse(json.data.updatedAt || "");
+            const localTime = localOverride
+              ? Date.parse(localOverride.updatedAt || "")
+              : 0;
+            if (!localOverride || serverTime >= localTime) {
+              setCmsData(json.data);
+            }
+          }
+        }
+      } catch {
+        // fallback to current state
+      }
+    };
+
+    loadCms();
+
+    const onStorage = () => {
+      loadCms();
+    };
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("sheva-cms-updated", onStorage);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("sheva-cms-updated", onStorage);
+    };
   }, []);
 
   const enabled = motionOn && !reduced;
@@ -1520,8 +1772,16 @@ export function EditorialPortfolio() {
         <Header enabled={enabled} onToggleMotion={toggleMotion} />
         <main>
           <Hero onSelectProject={setSelectedProject} />
-          <Portfolio onSelectProject={setSelectedProject} />
+          <Portfolio
+            projects={cmsData.projects}
+            onSelectProject={setSelectedProject}
+          />
           <SkillsSection />
+          <RecognitionAndGallery
+            achievements={cmsData.achievements}
+            gallery={cmsData.gallery}
+            onSelectLightbox={setSelectedLightbox}
+          />
           <About />
           <Journey />
           <Contact />
@@ -1534,6 +1794,13 @@ export function EditorialPortfolio() {
             © 2026 SHEVA RAMDHAN · INFORMATION SYSTEMS, UNIVERSITAS ANDALAS.
           </span>
           <div>
+            <a
+              href="/admin"
+              className="px-2 text-[9px] font-bold uppercase tracking-widest text-[#60a5fa] hover:text-white"
+              aria-label="Panel Admin CMS"
+            >
+              ADMIN
+            </a>
             <a
               href="https://github.com/Shevaramadhan"
               target="_blank"
@@ -1559,6 +1826,13 @@ export function EditorialPortfolio() {
               key={selectedProject.id}
               project={selectedProject}
               onClose={() => setSelectedProject(null)}
+            />
+          )}
+          {selectedLightbox && (
+            <LightboxDialog
+              key={selectedLightbox.title}
+              item={selectedLightbox}
+              onClose={() => setSelectedLightbox(null)}
             />
           )}
         </AnimatePresence>
