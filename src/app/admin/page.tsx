@@ -16,6 +16,8 @@ import {
   FolderGit2,
   Award,
   Image as ImageIcon,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import {
   CMS_AUTH_KEY,
@@ -62,6 +64,7 @@ async function compressImageFileToDataUrl(
 export default function AdminCMSPage() {
   const [token, setToken] = useState<string>("");
   const [passwordInput, setPasswordInput] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string>("");
   const [activeTab, setActiveTab] = useState<
     "projects" | "achievements" | "gallery"
@@ -264,14 +267,26 @@ export default function AdminCMSPage() {
           <form onSubmit={handleLogin} className="mt-6 flex flex-col gap-4">
             <label className="flex flex-col gap-2 text-[11px] font-semibold uppercase tracking-wider text-[#94a0b4]">
               Password Admin
-              <input
-                type="password"
-                required
-                placeholder="Masukkan password admin (default: sheva2026)"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                className="border border-[#243557] bg-[#07090e] px-3.5 py-3 text-xs text-[#f2efeb] outline-none focus:border-[#3b82f6]"
-              />
+              <div className="relative flex items-center">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="Masukkan password admin…"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  className="w-full border border-[#243557] bg-[#07090e] py-3 pl-3.5 pr-11 text-xs text-[#f2efeb] outline-none focus:border-[#3b82f6]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={
+                    showPassword ? "Sembunyikan sandi" : "Tampilkan sandi"
+                  }
+                  className="absolute right-3 flex h-7 w-7 items-center justify-center text-[#94a0b4] transition hover:text-[#f2efeb]"
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
             </label>
 
             {authError && (
@@ -284,13 +299,6 @@ export default function AdminCMSPage() {
               MASUK KE PANEL ADMIN
             </button>
           </form>
-
-          <p className="mt-5 border-t border-[#1c2536] pt-4 text-[10px] leading-relaxed text-[#94a0b4]">
-            Tip: Password default adalah{" "}
-            <code className="text-[#60a5fa]">sheva2026</code> (dapat diubah
-            melalui environment variable{" "}
-            <code className="text-[#60a5fa]">ADMIN_PASSWORD</code> di Vercel).
-          </p>
         </div>
 
         <div className="border-t border-[#1c2536] pt-4 text-[10px] uppercase tracking-widest text-[#94a0b4]">
