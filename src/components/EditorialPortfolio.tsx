@@ -1533,8 +1533,7 @@ export function EditorialPortfolio() {
             SHEVA<span>®</span>
           </a>
           <span>
-            © {new Date().getFullYear()} SHEVA RAMDHAN · INFORMATION SYSTEMS,
-            UNIVERSITAS ANDALAS.
+            © 2026 SHEVA RAMDHAN · INFORMATION SYSTEMS, UNIVERSITAS ANDALAS.
           </span>
           <div>
             <a
