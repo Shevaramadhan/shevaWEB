@@ -121,12 +121,195 @@ function Magnetic({
   );
 }
 
-function triggerSwarmBuild() {
+const SWARM_SCRIPT_URL =
+  "https://raw.githubusercontent.com/DhvanilPatel/swarm-cursors/18fd2614ebea68e64f05a8d269d27de022d50cc9/swarm-rebuild/swarm.js";
+
+async function triggerSwarmBuild() {
   if (typeof window === "undefined") return;
-  window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-  const s = document.createElement("script");
-  s.src = "https://www.duingzforge.site/kit/portfolio/swarm-play.js";
-  document.head.appendChild(s);
+  const win = window as unknown as {
+    __shevaSwarmRunning?: boolean;
+    __swarmRebuild?: {
+      start: () => void;
+      stop: (reveal?: boolean) => void;
+      app?: {
+        dead?: boolean;
+        complete?: boolean;
+        tour?: boolean;
+        tourV?: number;
+        tourAcc?: number;
+        tourStep?: (dt: number) => void;
+        env?: {
+          geom: () => { sy: number; vh: number };
+          scrollHeight: () => number;
+          scrollBy: (dy: number) => void;
+        };
+        view?: {
+          hud?: HTMLElement;
+        };
+        engine?: {
+          ready?: boolean;
+          started?: boolean;
+          viewTop: number;
+          viewBot: number;
+          cursors: Array<{
+            x: number;
+            y: number;
+            sticky?: boolean;
+            leaving?: boolean;
+          }>;
+          tasks: Array<{
+            state: string;
+            layer: string;
+            gate: number;
+            y: number;
+            spec: { type: string };
+          }>;
+          taskY: (t: unknown) => number;
+          backlog: () => number;
+          start: () => void;
+          pick?: (c: unknown, list: unknown[]) => unknown;
+        };
+      };
+    };
+  };
+
+  if (win.__shevaSwarmRunning) return;
+  win.__shevaSwarmRunning = true;
+
+  const sleep = (ms: number) => new Promise((r) => window.setTimeout(r, ms));
+  const waitUntil = async <T,>(
+    fn: () => T | null | undefined | false,
+    timeoutMs = 30000
+  ): Promise<T | null> => {
+    const t0 = performance.now();
+    while (performance.now() - t0 < timeoutMs) {
+      const val = fn();
+      if (val) return val;
+      await sleep(50);
+    }
+    return null;
+  };
+
+  try {
+    // 1. Force 100% visibility on all elements so zero Framer Motion / IntersectionObserver nodes are skipped
+    document.documentElement.dataset.swarmCapture = "true";
+
+    // 2. Quick scroll sweep to trigger all lazy images & observers before capture
+    const totalH = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    );
+    const stepH = Math.max(400, Math.floor(window.innerHeight * 0.85));
+    for (let y = 0; y <= totalH; y += stepH) {
+      window.scrollTo({ top: y, behavior: "instant" as ScrollBehavior });
+      await sleep(35);
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+    await sleep(450);
+
+    // 3. Load or restart swarm.js
+    if (win.__swarmRebuild) {
+      if (win.__swarmRebuild.app) {
+        win.__swarmRebuild.stop(false);
+        await sleep(320);
+      }
+      win.__swarmRebuild.start();
+    } else {
+      const code = await fetch(SWARM_SCRIPT_URL).then((r) => r.text());
+      new Function(code)();
+    }
+
+    // 4. Wait until the blueprint model is captured and mounted
+    const app = await waitUntil(
+      () => (win.__swarmRebuild?.app?.engine?.ready ? win.__swarmRebuild.app : null),
+      25000
+    );
+    delete document.documentElement.dataset.swarmCapture;
+
+    if (!app || !app.engine) return;
+
+    if (app.view?.hud) {
+      app.view.hud.style.setProperty("display", "none", "important");
+    }
+
+    // 5. Patch task picking so agents never skip upper elements to jump to lower ones
+    const engine = app.engine;
+    engine.pick = function (
+      c: { x: number; y: number; sticky?: boolean },
+      list: Array<{ y: number; spec: { type: string } }>
+    ) {
+      let best = null;
+      let bestScore = Infinity;
+      const cy = c.sticky ? c.y + engine.viewTop : c.y;
+      for (const t of list) {
+        const y = engine.taskY(t);
+        // Strictly prioritize top-to-bottom so upper elements are always finished first
+        const score =
+          y * 2.2 +
+          Math.abs(y - cy) * 0.25 -
+          (t.spec.type === "guide" ? 5e5 : 0);
+        if (score < bestScore) {
+          bestScore = score;
+          best = t;
+        }
+      }
+      return best;
+    } as typeof engine.pick;
+
+    // 6. Patch tour auto-scroll so it waits for the current section to finish before scrolling down
+    app.tourStep = function (dt: number) {
+      if (!engine.started || !app.env) return;
+      const g = app.env.geom();
+      const maxY = app.env.scrollHeight() - g.vh;
+      if (g.sy >= maxY - 1) {
+        app.tourV = 0;
+        return;
+      }
+      // Count unfinished tasks in the upper 72% of the current viewport
+      const holdLine = engine.viewTop + g.vh * 0.72;
+      let upperPending = 0;
+      for (const t of engine.tasks) {
+        if (
+          t.state !== "done" &&
+          t.layer === "world" &&
+          engine.taskY(t) <= holdLine
+        ) {
+          upperPending++;
+        }
+      }
+      const backlog = engine.backlog();
+      const targetSpeed =
+        upperPending > 2 ? 0 : backlog <= 6 ? 210 : backlog <= 16 ? 95 : 0;
+      app.tourV =
+        (app.tourV || 0) + (targetSpeed - (app.tourV || 0)) * Math.min(1, dt * 3);
+      app.tourAcc = (app.tourAcc || 0) + app.tourV * dt;
+      if (app.tourAcc >= 1) {
+        const d = Math.floor(app.tourAcc);
+        app.tourAcc -= d;
+        app.env.scrollBy(d);
+      }
+    };
+
+    app.tour = true;
+    engine.start();
+
+    // 7. Wait until 100% of layers are rebuilt (or user presses Esc)
+    await waitUntil(() => app.complete || app.dead, 180000);
+    if (app.dead) return;
+
+    // 8. Pause briefly at the bottom, fade back to live page, and scroll back to Hero (#home)
+    await sleep(1100);
+    win.__swarmRebuild?.stop(true);
+    await sleep(550);
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    await sleep(750);
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  } catch (err) {
+    console.error("[Agent Swarm Build]", err);
+    delete document.documentElement.dataset.swarmCapture;
+  } finally {
+    win.__shevaSwarmRunning = false;
+  }
 }
 
 function Header({
@@ -213,7 +396,7 @@ function Header({
 
         <button
           type="button"
-          className="motion-toggle"
+          className="swarm-toggle"
           onClick={triggerSwarmBuild}
           aria-label="Putar animasi Agent Swarm Build"
           title="Replay Agent Swarm Build"

@@ -295,6 +295,7 @@ export function SkillsSection() {
               pathWidth={1.3}
               depth={0.5}
               draggable={false}
+              intro={false}
             />
           </div>
 
@@ -327,6 +328,7 @@ export function SkillsSection() {
               pathWidth={1.4}
               depth={0.55}
               draggable={false}
+              intro={false}
             />
           </div>
 
@@ -357,6 +359,7 @@ export function SkillsSection() {
               hoverScale={1.2}
               draggable={true}
               clickToFront={true}
+              intro={false}
               centerContent={
                 <div
                   style={{
@@ -464,6 +467,7 @@ export function SkillsSection() {
               magnify={0.14}
               scrollBoost={0.3}
               draggable={true}
+              intro={false}
               ariaLabel="Primary Backend and Web Tech Stack"
             />
 
@@ -480,6 +484,7 @@ export function SkillsSection() {
               magnify={0.14}
               scrollBoost={0.3}
               draggable={true}
+              intro={false}
               ariaLabel="Frontend, Systems, and Tooling Stack"
             />
           </div>

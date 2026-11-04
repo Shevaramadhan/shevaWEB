@@ -280,6 +280,7 @@ svg {
 }
 
 .motion-toggle,
+.swarm-toggle,
 .lang-toggle {
   display: flex;
   align-items: center;
@@ -293,8 +294,18 @@ svg {
 }
 
 .motion-toggle:hover,
+.swarm-toggle:hover,
 .lang-toggle:hover {
   color: var(--ink);
+}
+
+/* Force 100% visibility of all DOM elements while Agent Swarm captures its blueprint */
+html[data-swarm-capture="true"] main *,
+html[data-swarm-capture="true"] header *,
+html[data-swarm-capture="true"] footer * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  clip-path: none !important;
 }
 
 .header-contact {
