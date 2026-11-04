@@ -465,15 +465,13 @@ function Hero({
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, delay: 0.2 }}
       >
-        <div className="hero-portrait-frame">
-          <img
-            src="/assets/profile/sheva.png"
-            alt="Sheva Ramdhan mengenakan jas hitam"
-            width={1024}
-            height={1280}
-            fetchPriority="high"
-          />
-        </div>
+        <img
+          src="/assets/profile/sheva.png"
+          alt="Sheva Ramdhan mengenakan jas hitam"
+          width={396}
+          height={680}
+          fetchPriority="high"
+        />
       </motion.div>
 
       {/* Left Intro */}
