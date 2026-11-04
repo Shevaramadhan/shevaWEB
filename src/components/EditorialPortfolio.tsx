@@ -468,8 +468,8 @@ function Hero({
         <img
           src="/assets/profile/sheva.png"
           alt="Sheva Ramdhan mengenakan jas hitam"
-          width={396}
-          height={680}
+          width={792}
+          height={1410}
           fetchPriority="high"
         />
       </motion.div>
