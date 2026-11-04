@@ -121,6 +121,14 @@ function Magnetic({
   );
 }
 
+function triggerSwarmBuild() {
+  if (typeof window === "undefined") return;
+  window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+  const s = document.createElement("script");
+  s.src = "https://www.duingzforge.site/kit/portfolio/swarm-play.js";
+  document.head.appendChild(s);
+}
+
 function Header({
   enabled,
   onToggleMotion,
@@ -201,6 +209,17 @@ function Header({
           <span className={isId ? "text-[#f2efeb]" : ""}>ID</span>
           <span>/</span>
           <span className={!isId ? "text-[#f2efeb]" : ""}>EN</span>
+        </button>
+
+        <button
+          type="button"
+          className="motion-toggle"
+          onClick={triggerSwarmBuild}
+          aria-label="Putar animasi Agent Swarm Build"
+          title="Replay Agent Swarm Build"
+        >
+          <span className="text-[#3b82f6]">⚡</span>
+          <span>Agent Build</span>
         </button>
 
         <button
@@ -1739,6 +1758,31 @@ export function EditorialPortfolio() {
   }, []);
 
   const enabled = motionOn && !reduced;
+
+  useEffect(() => {
+    document.documentElement.dataset.motion = enabled ? "on" : "off";
+  }, [enabled]);
+
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const forceSwarm = params.get("swarm") === "1";
+      const alreadyPlayedInSession = sessionStorage.getItem(
+        "sheva_swarm_auto_played"
+      );
+
+      if (forceSwarm || !alreadyPlayedInSession) {
+        sessionStorage.setItem("sheva_swarm_auto_played", "1");
+        const timer = window.setTimeout(() => {
+          triggerSwarmBuild();
+        }, 900);
+        return () => window.clearTimeout(timer);
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, []);
+
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, {
     stiffness: 100,
