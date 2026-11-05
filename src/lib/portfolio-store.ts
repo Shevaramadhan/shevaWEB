@@ -14,6 +14,26 @@ export interface PortfolioProject {
   repoUrl?: string;
   liveUrl?: string;
   imageUrl?: string;
+  images?: string[];
+}
+
+export function getProjectImages(project: PortfolioProject): string[] {
+  const list: string[] = [];
+  if (Array.isArray(project.images)) {
+    for (const img of project.images) {
+      if (typeof img === "string" && img.trim() && !list.includes(img.trim())) {
+        list.push(img.trim());
+      }
+    }
+  }
+  if (
+    typeof project.imageUrl === "string" &&
+    project.imageUrl.trim() &&
+    !list.includes(project.imageUrl.trim())
+  ) {
+    list.unshift(project.imageUrl.trim());
+  }
+  return list;
 }
 
 export interface AchievementItem {

@@ -23,6 +23,7 @@ import {
   CMS_AUTH_KEY,
   CMS_STORAGE_KEY,
   INITIAL_CMS_DATA,
+  getProjectImages,
   type AchievementItem,
   type GalleryItem,
   type PortfolioCMSData,
@@ -76,6 +77,7 @@ export default function AdminCMSPage() {
   // Editing states
   const [editingProject, setEditingProject] =
     useState<PortfolioProject | null>(null);
+  const [projectImageUrlInput, setProjectImageUrlInput] = useState<string>("");
   const [editingAchievement, setEditingAchievement] =
     useState<AchievementItem | null>(null);
   const [editingGallery, setEditingGallery] = useState<GalleryItem | null>(
@@ -1016,7 +1018,8 @@ export default function AdminCMSPage() {
                 </div>
                 <button
                   type="button"
-                  onClick={() =>
+                  onClick={() => {
+                    setProjectImageUrlInput("");
                     setEditingProject({
                       id: `proj-${Date.now()}`,
                       title: "",
@@ -1031,8 +1034,10 @@ export default function AdminCMSPage() {
                       highlightsId: ["Fitur utama 1", "Fitur utama 2"],
                       highlightsEn: ["Key feature 1", "Key feature 2"],
                       repoUrl: "https://github.com/Shevaramadhan",
-                    })
-                  }
+                      liveUrl: "",
+                      images: [],
+                    });
+                  }}
                   className="solid-button"
                   style={{ minHeight: "40px", padding: "10px 16px" }}
                 >
@@ -1041,55 +1046,83 @@ export default function AdminCMSPage() {
               </div>
 
               <div className="flex flex-col border-t border-[#1c2536]">
-                {cmsData.projects.map((proj, idx) => (
-                  <div
-                    key={proj.id}
-                    className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1c2536] bg-[#090d16] p-5"
-                  >
-                    <div className="flex items-start gap-4">
-                      <span className="display text-2xl text-[#3b82f6]">
-                        {String(idx + 1).padStart(2, "0")}
-                      </span>
-                      <div>
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#60a5fa]">
-                          {proj.category} · {proj.year} · {proj.role}
+                {cmsData.projects.map((proj, idx) => {
+                  const projImages = getProjectImages(proj);
+                  return (
+                    <div
+                      key={proj.id}
+                      className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1c2536] bg-[#090d16] p-5"
+                    >
+                      <div className="flex items-start gap-4">
+                        <span className="display text-2xl text-[#3b82f6]">
+                          {String(idx + 1).padStart(2, "0")}
                         </span>
-                        <h3 className="mt-1 text-base font-bold text-[#f2efeb]">
-                          {proj.title}
-                        </h3>
-                        <p className="font-mono text-[10px] text-[#93c5fd]">
-                          {proj.architecture}
-                        </p>
+                        {projImages.length > 0 && (
+                          <div className="relative h-14 w-20 shrink-0 overflow-hidden border border-[#243557] bg-[#05070c]">
+                            <img
+                              src={projImages[0]}
+                              alt={proj.title}
+                              className="h-full w-full object-cover"
+                            />
+                            <span className="absolute bottom-0.5 right-0.5 bg-black/80 px-1.5 py-0.5 text-[9px] font-bold text-[#60a5fa]">
+                              {projImages.length} Foto
+                            </span>
+                          </div>
+                        )}
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#60a5fa]">
+                              {proj.category} · {proj.year} · {proj.role}
+                            </span>
+                            {projImages.length > 0 && (
+                              <span className="inline-flex items-center gap-1 border border-[#3b82f6]/40 bg-[#101f3c] px-1.5 py-0.5 text-[9px] font-semibold text-[#93c5fd]">
+                                <ImageIcon size={10} /> {projImages.length} Gambar
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="mt-1 text-base font-bold text-[#f2efeb]">
+                            {proj.title}
+                          </h3>
+                          <p className="font-mono text-[10px] text-[#93c5fd]">
+                            {proj.architecture}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setProjectImageUrlInput("");
+                            setEditingProject({
+                              ...proj,
+                              images: getProjectImages(proj),
+                            });
+                          }}
+                          className="outline-button"
+                          style={{ minHeight: "36px", padding: "6px 12px" }}
+                        >
+                          <Edit3 size={13} /> Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const next = {
+                              ...cmsData,
+                              projects: cmsData.projects.filter(
+                                (p) => p.id !== proj.id
+                              ),
+                            };
+                            persistAll(next, "Proyek dihapus");
+                          }}
+                          className="border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300 hover:border-red-500"
+                        >
+                          <Trash2 size={14} />
+                        </button>
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setEditingProject({ ...proj })}
-                        className="outline-button"
-                        style={{ minHeight: "36px", padding: "6px 12px" }}
-                      >
-                        <Edit3 size={13} /> Edit
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const next = {
-                            ...cmsData,
-                            projects: cmsData.projects.filter(
-                              (p) => p.id !== proj.id
-                            ),
-                          };
-                          persistAll(next, "Proyek dihapus");
-                        }}
-                        className="border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300 hover:border-red-500"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -1104,20 +1137,27 @@ export default function AdminCMSPage() {
                 <p className="mt-3 text-xs text-[#94a0b4]">
                   Klik <strong>Tambah Proyek Baru</strong> atau klik{" "}
                   <strong>Edit</strong> pada proyek di samping untuk mengubah
-                  judul, arsitektur, tech stack, maupun link GitHub.
+                  judul, arsitektur, tech stack, link GitHub, maupun mengunggah
+                  beberapa gambar tangkapan layar proyek.
                 </p>
               ) : (
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
+                    const normalizedImages = getProjectImages(editingProject);
+                    const finalProject: PortfolioProject = {
+                      ...editingProject,
+                      images: normalizedImages,
+                      imageUrl: normalizedImages[0] || undefined,
+                    };
                     const exists = cmsData.projects.some(
-                      (p) => p.id === editingProject.id
+                      (p) => p.id === finalProject.id
                     );
                     const nextList = exists
                       ? cmsData.projects.map((p) =>
-                          p.id === editingProject.id ? editingProject : p
+                          p.id === finalProject.id ? finalProject : p
                         )
-                      : [editingProject, ...cmsData.projects];
+                      : [finalProject, ...cmsData.projects];
                     persistAll(
                       { ...cmsData, projects: nextList },
                       "Data proyek berhasil disimpan"
@@ -1245,19 +1285,194 @@ export default function AdminCMSPage() {
                     />
                   </label>
 
-                  <label className="flex flex-col gap-1 text-[#94a0b4]">
-                    Link GitHub Repository
-                    <input
-                      value={editingProject.repoUrl || ""}
-                      onChange={(e) =>
-                        setEditingProject({
-                          ...editingProject,
-                          repoUrl: e.target.value,
-                        })
-                      }
-                      className="border border-[#243557] bg-[#07090e] px-3 py-2.5 text-[#f2efeb]"
-                    />
-                  </label>
+                  {/* Multi-Image Upload Box for Project */}
+                  <div className="flex flex-col gap-2.5 border border-[#243557] bg-[#07090e] p-3.5">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-[#cbd5e1]">
+                        Galeri Gambar / Screenshot Proyek (
+                        {getProjectImages(editingProject).length} Foto)
+                      </span>
+                      {getProjectImages(editingProject).length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setEditingProject({
+                              ...editingProject,
+                              images: [],
+                              imageUrl: undefined,
+                            })
+                          }
+                          className="text-[10px] text-red-400 hover:underline"
+                        >
+                          Hapus Semua
+                        </button>
+                      )}
+                    </div>
+
+                    <p className="text-[11px] leading-relaxed text-[#94a0b4]">
+                      Anda dapat mengunggah beberapa gambar sekaligus (misal:
+                      tampilan halaman utama, dashboard, skema ERD/arsitektur).
+                      Gambar pertama otomatis menjadi cover kartu proyek.
+                    </p>
+
+                    {getProjectImages(editingProject).length > 0 && (
+                      <div className="grid grid-cols-2 gap-2.5 pt-1">
+                        {getProjectImages(editingProject).map((imgSrc, imgIdx) => (
+                          <div
+                            key={`${imgIdx}-${imgSrc.slice(0, 28)}`}
+                            className="group relative overflow-hidden border border-[#243557] bg-[#0b101b]"
+                          >
+                            <img
+                              src={imgSrc}
+                              alt={`Screenshot ${imgIdx + 1}`}
+                              className="h-24 w-full object-cover"
+                            />
+                            <span
+                              className={`absolute left-1.5 top-1.5 px-1.5 py-0.5 text-[9px] font-bold uppercase ${
+                                imgIdx === 0
+                                  ? "bg-[#2563eb] text-white"
+                                  : "bg-black/80 text-[#cbd5e1]"
+                              }`}
+                            >
+                              {imgIdx === 0 ? "Cover Utama" : `#${imgIdx + 1}`}
+                            </span>
+
+                            <div className="flex items-center justify-between gap-1 border-t border-[#1c2536] bg-[#080c15] px-2 py-1.5">
+                              {imgIdx > 0 ? (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const current =
+                                      getProjectImages(editingProject);
+                                    const picked = current[imgIdx];
+                                    const reordered = [
+                                      picked,
+                                      ...current.filter((_, i) => i !== imgIdx),
+                                    ];
+                                    setEditingProject({
+                                      ...editingProject,
+                                      images: reordered,
+                                      imageUrl: reordered[0],
+                                    });
+                                  }}
+                                  className="text-[10px] font-semibold text-[#60a5fa] hover:underline"
+                                >
+                                  Jadikan Cover
+                                </button>
+                              ) : (
+                                <span className="text-[10px] text-[#64748b]">
+                                  Thumbnail Card
+                                </span>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const nextImgs = getProjectImages(
+                                    editingProject
+                                  ).filter((_, i) => i !== imgIdx);
+                                  setEditingProject({
+                                    ...editingProject,
+                                    images: nextImgs,
+                                    imageUrl: nextImgs[0] || undefined,
+                                  });
+                                }}
+                                className="inline-flex items-center gap-0.5 text-[10px] text-red-400 hover:text-red-300"
+                              >
+                                <Trash2 size={11} /> Hapus
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <label className="mt-1 inline-flex cursor-pointer items-center justify-center gap-2 border border-[#3b82f6] bg-[#101f3c] px-3 py-2.5 text-[11px] font-semibold text-white transition hover:bg-[#2563eb]">
+                      <Upload size={14} /> Upload Beberapa Gambar (Pilih 1 atau
+                      Banyak File)
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="hidden"
+                        onChange={async (e) => {
+                          const fileList = e.target.files;
+                          if (!fileList || fileList.length === 0) return;
+                          const files = Array.from(fileList);
+                          const compressedList = await Promise.all(
+                            files.map((file) => compressImageFileToDataUrl(file))
+                          );
+                          const existing = getProjectImages(editingProject);
+                          const combined = [...existing, ...compressedList];
+                          setEditingProject({
+                            ...editingProject,
+                            images: combined,
+                            imageUrl: combined[0],
+                          });
+                          e.target.value = "";
+                        }}
+                      />
+                    </label>
+
+                    <div className="flex items-center gap-1.5 pt-1">
+                      <input
+                        type="text"
+                        value={projectImageUrlInput}
+                        onChange={(e) => setProjectImageUrlInput(e.target.value)}
+                        placeholder="Atau tempel URL gambar (/assets/... atau https://...)"
+                        className="flex-1 border border-[#243557] bg-[#0b101b] px-2.5 py-2 text-[11px] text-[#f2efeb]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const trimmed = projectImageUrlInput.trim();
+                          if (!trimmed) return;
+                          const existing = getProjectImages(editingProject);
+                          const combined = [...existing, trimmed];
+                          setEditingProject({
+                            ...editingProject,
+                            images: combined,
+                            imageUrl: combined[0],
+                          });
+                          setProjectImageUrlInput("");
+                        }}
+                        className="border border-[#243557] bg-[#101f3c] px-3 py-2 text-[11px] font-semibold text-[#93c5fd] hover:border-[#3b82f6] hover:text-white"
+                      >
+                        + URL
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                    <label className="flex flex-col gap-1 text-[#94a0b4]">
+                      Link GitHub Repository
+                      <input
+                        value={editingProject.repoUrl || ""}
+                        onChange={(e) =>
+                          setEditingProject({
+                            ...editingProject,
+                            repoUrl: e.target.value,
+                          })
+                        }
+                        placeholder="https://github.com/..."
+                        className="border border-[#243557] bg-[#07090e] px-3 py-2.5 text-[#f2efeb]"
+                      />
+                    </label>
+
+                    <label className="flex flex-col gap-1 text-[#94a0b4]">
+                      Link Live Website / Demo
+                      <input
+                        value={editingProject.liveUrl || ""}
+                        onChange={(e) =>
+                          setEditingProject({
+                            ...editingProject,
+                            liveUrl: e.target.value,
+                          })
+                        }
+                        placeholder="https://..."
+                        className="border border-[#243557] bg-[#07090e] px-3 py-2.5 text-[#f2efeb]"
+                      />
+                    </label>
+                  </div>
 
                   <div className="mt-2 flex items-center gap-2">
                     <button

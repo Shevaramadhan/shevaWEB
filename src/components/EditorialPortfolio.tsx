@@ -30,6 +30,9 @@ import {
   Plus,
   Minus,
   ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  Image as ImageIcon,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { SkillsSection } from "./SkillsSection";
@@ -37,6 +40,7 @@ import { SkillsSection } from "./SkillsSection";
 import {
   CMS_STORAGE_KEY,
   INITIAL_CMS_DATA,
+  getProjectImages,
   type AchievementItem,
   type GalleryItem,
   type PortfolioCMSData,
@@ -662,6 +666,7 @@ function ProjectCard({
   onOpen: (p: PortfolioProject) => void;
 }) {
   const enabled = useContext(MotionContext);
+  const images = getProjectImages(project);
 
   return (
     <motion.article
@@ -684,14 +689,28 @@ function ProjectCard({
         aria-label={`Lihat ${project.title}`}
       >
         <div className="project-stage-preview">
-          <div className="mt-4 flex items-center justify-between border-b border-white/10 pb-2.5">
+          {images.length > 0 && (
+            <>
+              <img
+                src={images[0]}
+                alt={project.title}
+                className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-55 transition-transform duration-700"
+              />
+              <div
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#060912]/95 via-[#080d1a]/75 to-[#060912]/80"
+                aria-hidden="true"
+              />
+            </>
+          )}
+
+          <div className="relative z-10 mt-4 flex items-center justify-between border-b border-white/10 pb-2.5">
             <span className="text-[9px] font-bold tracking-widest text-[#60a5fa]">
               SYSTEM BLUEPRINT // {project.year}
             </span>
             <span className="text-[9px] text-[#94a0b4]">{project.role}</span>
           </div>
 
-          <div className="my-auto py-3">
+          <div className="relative z-10 my-auto py-3">
             <p className="display text-2xl tracking-tight text-[#f2efeb] sm:text-3xl">
               {project.title}
             </p>
@@ -700,11 +719,11 @@ function ProjectCard({
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-1.5">
+          <div className="relative z-10 flex flex-wrap gap-1.5">
             {project.stack.map((tech) => (
               <span
                 key={tech}
-                className="border border-white/12 bg-black/40 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-[#cbd5e1]"
+                className="border border-white/12 bg-black/55 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-[#cbd5e1]"
               >
                 {tech}
               </span>
@@ -713,6 +732,11 @@ function ProjectCard({
         </div>
 
         <span className="project-type">{project.category}</span>
+        {images.length > 0 && (
+          <span className="absolute right-3.5 top-3.5 z-10 inline-flex items-center gap-1 border border-[#3b82f6]/40 bg-[#07090e]/85 px-2 py-1 text-[8.5px] font-bold uppercase tracking-wider text-[#93c5fd]">
+            <ImageIcon size={10} /> {images.length}
+          </span>
+        )}
         <span className="project-hover">
           <ArrowUpRight size={20} />
         </span>
@@ -1412,19 +1436,28 @@ function ProjectDialog({
   const { lang } = useLanguage();
   const isId = lang === "id";
   const enabled = useContext(MotionContext);
+  const images = getProjectImages(project);
+  const [activeImgIdx, setActiveImgIdx] = useState(0);
 
   useEffect(() => {
     const oldOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
+      if (images.length > 1) {
+        if (e.key === "ArrowRight") {
+          setActiveImgIdx((prev) => (prev + 1) % images.length);
+        } else if (e.key === "ArrowLeft") {
+          setActiveImgIdx((prev) => (prev - 1 + images.length) % images.length);
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = oldOverflow;
       window.removeEventListener("keydown", onKey);
     };
-  }, [onClose]);
+  }, [onClose, images.length]);
 
   const highlights = isId ? project.highlightsId : project.highlightsEn;
 
@@ -1461,6 +1494,73 @@ function ProjectDialog({
             <X size={18} />
           </button>
         </div>
+
+        {images.length > 0 && (
+          <div className="border-b border-[#1c2536] bg-[#05080f]">
+            <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#04060b]">
+              <img
+                src={images[activeImgIdx] || images[0]}
+                alt={`${project.title} — Screenshot ${activeImgIdx + 1}`}
+                className="h-full w-full object-contain"
+              />
+
+              <span className="absolute left-3.5 top-3.5 border border-[#3b82f6]/40 bg-[#07090e]/85 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#93c5fd]">
+                {isId ? "Tangkapan Layar" : "Screenshot"} {activeImgIdx + 1} /{" "}
+                {images.length}
+              </span>
+
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveImgIdx(
+                        (prev) => (prev - 1 + images.length) % images.length
+                      )
+                    }
+                    className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center border border-[#3b82f6]/40 bg-[#07090e]/85 text-white transition hover:border-[#3b82f6] hover:bg-[#2563eb]"
+                    aria-label="Gambar sebelumnya"
+                  >
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveImgIdx((prev) => (prev + 1) % images.length)
+                    }
+                    className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center border border-[#3b82f6]/40 bg-[#07090e]/85 text-white transition hover:border-[#3b82f6] hover:bg-[#2563eb]"
+                    aria-label="Gambar berikutnya"
+                  >
+                    <ChevronRight size={18} />
+                  </button>
+                </>
+              )}
+            </div>
+
+            {images.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto border-t border-[#1c2536] bg-[#080c15] p-3">
+                {images.map((imgSrc, idx) => (
+                  <button
+                    key={`${idx}-${imgSrc.slice(0, 24)}`}
+                    type="button"
+                    onClick={() => setActiveImgIdx(idx)}
+                    className={`relative h-14 w-24 shrink-0 overflow-hidden border transition ${
+                      idx === activeImgIdx
+                        ? "border-[#3b82f6] ring-1 ring-[#3b82f6]"
+                        : "border-[#1c2536] opacity-55 hover:opacity-90"
+                    }`}
+                  >
+                    <img
+                      src={imgSrc}
+                      alt={`Thumbnail ${idx + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="border-b border-[#1c2536] bg-[#080c15] p-7 sm:p-10">
           <p className="eyebrow accent">SYSTEM ARCHITECTURE FLOW</p>
@@ -1505,16 +1605,29 @@ function ProjectDialog({
             </div>
           </div>
 
-          {project.repoUrl && (
-            <a
-              className="outline-button"
-              href={project.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub <ExternalLink size={15} />
-            </a>
-          )}
+          <div className="flex flex-wrap items-center gap-2.5">
+            {project.liveUrl && (
+              <a
+                className="solid-button"
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ minHeight: "42px", padding: "10px 18px" }}
+              >
+                Live Demo <ExternalLink size={15} />
+              </a>
+            )}
+            {project.repoUrl && (
+              <a
+                className="outline-button"
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub <ExternalLink size={15} />
+              </a>
+            )}
+          </div>
         </div>
       </motion.div>
     </motion.div>
